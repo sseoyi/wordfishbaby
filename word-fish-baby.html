@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#ffffff" />
+<title>Word Fish Baby! Learn English</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #26324b; --muted: #68738d; --blue: #5b8def; --blue-dark: #3767c8;
+    --sky: #eaf3ff; --yellow: #ffd861; --pink: #ff8fb4; --mint: #69d7b2; --mint-dark: #2fa27d;
+    --coral: #ff866e; --lavender: #9e8cff; --line: #dce7f7; --white: #ffffff;
+    --shadow: 0 16px 40px rgba(48, 75, 121, .13); --shadow-soft: 0 8px 22px rgba(48, 75, 121, .10);
+    --radius-xl: 34px; --radius-lg: 24px; --radius-md: 18px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; min-height: 100vh; color: var(--ink); background: #fff; font-family: "Baloo 2","Nunito","Segoe UI",Arial,sans-serif; overflow-x: hidden; }
+  button, input, select { font: inherit; }
+  button { -webkit-tap-highlight-color: transparent; }
+  .app-shell { width: min(1180px, calc(100% - 28px)); margin: 0 auto; padding: 18px 0 54px; }
+
+  .topbar { position: sticky; top: 0; z-index: 30; display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 12px 16px; margin-bottom: 20px; background: rgba(255,255,255,.93); backdrop-filter: blur(12px); border: 2px solid var(--line); border-radius: 22px; box-shadow: var(--shadow-soft); }
+  .brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+  .brand-mascot { display: grid; place-items: center; width: 48px; height: 48px; flex: 0 0 auto; border-radius: 16px; background: #fff6c8; font-size: 29px; transform: rotate(-4deg); }
+  .brand h1 { margin: 0; font-size: clamp(18px, 3vw, 27px); line-height: 1; letter-spacing: -.03em; }
+  .brand h1 .brand-baby { font-size: .58em; font-weight: 700; color: var(--muted); letter-spacing: -.01em; }
+  .brand small { display: block; margin-top: 5px; color: var(--muted); font-weight: 800; }
+  .top-actions { display: flex; align-items: center; gap: 9px; }
+  .icon-btn, .home-btn { min-width: 48px; min-height: 48px; border: 0; border-radius: 16px; color: var(--ink); background: var(--sky); font-size: 22px; font-weight: 900; cursor: pointer; box-shadow: 0 4px 0 #cadcf7; transition: transform .15s ease, box-shadow .15s ease, background .15s ease; }
+  .icon-btn:hover, .home-btn:hover { transform: translateY(-2px); }
+  .icon-btn:active, .home-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #cadcf7; }
+  .home-btn { display: none; padding: 0 16px; font-size: 16px; }
+  .top-pill-btn { min-height: 46px; padding: 0 15px; border: 2px solid #cfe2ff; border-radius: 15px; color: var(--blue-dark); background: #f4f9ff; font: inherit; font-weight: 1000; cursor: pointer; box-shadow: 0 5px 0 #e1edfb; transition: transform .15s ease, box-shadow .15s ease; }
+  .top-pill-btn:hover { transform: translateY(-2px); box-shadow: 0 7px 0 #e1edfb; }
+  .top-pill-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #e1edfb; }
+  .top-pill-btn strong { display: inline-grid; place-items: center; min-width: 25px; height: 25px; margin-left: 4px; padding: 0 6px; border-radius: 999px; color: #fff; background: var(--coral); }
+
+  .screen { display: none; animation: screenIn .35s ease both; }
+  .screen.active { display: block; }
+  @keyframes screenIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+  .hero { display: grid; grid-template-columns: 1.2fr .8fr; gap: 22px; align-items: center; padding: clamp(24px, 5vw, 54px); border: 3px solid #d9e9ff; border-radius: var(--radius-xl); background: radial-gradient(circle at 13% 15%, #fff3b5 0 9%, transparent 9.4%), radial-gradient(circle at 91% 20%, #f7d8ff 0 8%, transparent 8.4%), radial-gradient(circle at 86% 86%, #d8fff0 0 11%, transparent 11.4%), linear-gradient(135deg, #f8fbff 0%, #fff 52%, #fbfaff 100%); box-shadow: var(--shadow); overflow: hidden; }
+  .hero-copy { position: relative; z-index: 1; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 9px 13px; border-radius: 999px; color: var(--blue-dark); background: var(--sky); font-weight: 900; }
+  .hero h2 { max-width: 720px; margin: 16px 0 12px; font-size: clamp(36px, 7vw, 68px); line-height: .98; letter-spacing: -.05em; }
+  .hero h2 span { color: var(--blue); }
+  .hero p { max-width: 630px; margin: 0; color: var(--muted); font-size: clamp(17px, 2.5vw, 22px); line-height: 1.55; font-weight: 750; }
+  .hero-buttons { display: flex; flex-wrap: wrap; gap: 13px; margin-top: 25px; }
+  .hero-art { position: relative; min-height: 310px; display: grid; place-items: center; }
+  .hero-bubble { width: min(320px, 85vw); aspect-ratio: 1; display: grid; place-items: center; border: 4px solid #cbe0ff; border-radius: 48% 52% 52% 48% / 55% 45% 55% 45%; background: #eaf4ff; font-size: clamp(100px, 17vw, 185px); box-shadow: inset 0 -12px 0 rgba(91, 141, 239, .08), var(--shadow-soft); animation: float 4s ease-in-out infinite; }
+  .float-sticker { position: absolute; font-size: 46px; animation: float 3.2s ease-in-out infinite; }
+  .float-sticker.one { top: 4%; left: 5%; transform: rotate(-12deg); }
+  .float-sticker.two { right: 3%; top: 18%; animation-delay: .4s; }
+  .float-sticker.three { left: 6%; bottom: 3%; animation-delay: .8s; }
+  @keyframes float { 50% { transform: translateY(-9px) rotate(2deg); } }
+
+  .primary-btn, .secondary-btn, .small-btn { border: 0; border-radius: 18px; padding: 15px 22px; min-height: 56px; font-size: 18px; font-weight: 950; cursor: pointer; transition: transform .14s ease, box-shadow .14s ease, filter .14s ease; }
+  .primary-btn { color: #fff; background: var(--blue); box-shadow: 0 6px 0 var(--blue-dark), var(--shadow-soft); }
+  .secondary-btn { color: #6d4e00; background: var(--yellow); box-shadow: 0 6px 0 #e6b923, var(--shadow-soft); }
+  .small-btn { min-height: 48px; padding: 11px 17px; color: var(--ink); background: var(--sky); box-shadow: 0 4px 0 #cbdcf4; }
+  .primary-btn:hover, .secondary-btn:hover, .small-btn:hover { transform: translateY(-2px); filter: saturate(1.08); }
+  .primary-btn:active, .secondary-btn:active, .small-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 rgba(60,75,100,.3); }
+  .primary-btn:disabled, .small-btn:disabled { opacity: .45; cursor: not-allowed; transform: none !important; }
+  .primary-btn:focus-visible, .secondary-btn:focus-visible, .small-btn:focus-visible, .topic-card:focus-visible, .icon-btn:focus-visible { outline: 4px solid rgba(91,141,239,.28); outline-offset: 3px; }
+
+  .section-head { display: flex; align-items: end; justify-content: space-between; gap: 14px; margin: 34px 2px 16px; }
+  .section-head h3 { margin: 0; font-size: clamp(25px, 4vw, 37px); letter-spacing: -.035em; }
+  .section-head p { margin: 5px 0 0; color: var(--muted); font-weight: 750; }
+  .topic-tools { display: flex; gap: 10px; align-items: center; }
+  .search-wrap { display: flex; align-items: center; gap: 9px; min-width: min(330px, 42vw); padding: 10px 14px; border: 2px solid var(--line); border-radius: 16px; background: #fff; }
+  .search-wrap input { width: 100%; border: 0; outline: 0; color: var(--ink); font-weight: 800; font-size: 16px; }
+
+  .topic-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 13px; }
+  .topic-card { position: relative; min-height: 152px; border: 2px solid var(--line); border-radius: 22px; padding: 17px 13px 14px; text-align: left; color: var(--ink); background: #fff; cursor: pointer; box-shadow: 0 6px 0 #edf2fa; transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease; overflow: hidden; }
+  .topic-card::after { content: ""; position: absolute; right: -22px; bottom: -28px; width: 78px; height: 78px; border-radius: 50%; background: var(--card-tint, #eef5ff); z-index: 0; }
+  .topic-card:hover { transform: translateY(-4px) rotate(-.4deg); border-color: #b8d2fa; box-shadow: 0 10px 0 #edf2fa; }
+  .topic-card:active { transform: translateY(2px); box-shadow: 0 2px 0 #edf2fa; }
+  .topic-emoji { position: relative; z-index: 1; display: block; font-size: 44px; margin-bottom: 10px; }
+  .topic-name { position: relative; z-index: 1; display: block; font-size: 18px; line-height: 1.12; font-weight: 950; }
+  .topic-count { position: relative; z-index: 1; display: block; margin-top: 6px; color: var(--muted); font-size: 13px; font-weight: 850; }
+  .progress-summary { display: flex; flex-wrap: wrap; align-items: center; gap: 9px; margin-top: 19px; }
+  .progress-chip { min-height: 39px; display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; border: 2px solid #dfebf8; border-radius: 999px; color: var(--ink); background: #fff; font-size: 13px; font-weight: 900; }
+  button.progress-chip { font-family: inherit; cursor: pointer; }
+  .progress-chip.clickable:hover { border-color: #a9cef8; transform: translateY(-1px); }
+
+  /* adventure / minigame cards */
+  .adventure-section { margin: 28px 0 10px; }
+  .adventure-heading { margin: 0 2px 15px; }
+  .adventure-heading h3 { margin: 0; font-size: clamp(25px, 4vw, 37px); letter-spacing: -.035em; }
+  .adventure-heading p { margin: 5px 0 0; color: var(--muted); font-weight: 750; }
+  .adventure-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .adventure-card { position: relative; min-height: 190px; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 18px; padding: clamp(22px, 4vw, 34px); border: 3px solid var(--line); border-radius: 30px; color: var(--ink); text-align: left; cursor: pointer; overflow: hidden; box-shadow: 0 9px 0 #edf2fa, var(--shadow-soft); transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease; }
+  .adventure-card:hover { transform: translateY(-5px); box-shadow: 0 14px 0 #edf2fa, var(--shadow-soft); border-color: #b7d0f7; }
+  .adventure-card:active { transform: translateY(3px); box-shadow: 0 2px 0 #edf2fa; }
+  .adventure-card.match { background: linear-gradient(140deg, #eefaff 0%, #d9f4ff 54%, #fff 100%); }
+  .adventure-card.puzzle { background: linear-gradient(140deg, #fff9ea 0%, #fff0c7 54%, #fff 100%); }
+  .adventure-title { display: block; margin: 0 0 7px; font-size: clamp(23px, 4vw, 32px); line-height: 1.15; letter-spacing: -.035em; font-weight: 1000; }
+  .adventure-description { display: block; margin: 0; max-width: 520px; color: var(--muted); font-size: 16px; line-height: 1.45; font-weight: 800; }
+  .adventure-icon { position: relative; z-index: 1; font-size: clamp(64px, 9vw, 100px); filter: drop-shadow(0 8px 8px rgba(38,50,75,.12)); animation: float 3.8s ease-in-out infinite; }
+  .adventure-card::after { content: ""; position: absolute; width: 170px; aspect-ratio: 1; right: -45px; bottom: -70px; border-radius: 50%; background: rgba(255,255,255,.55); }
+
+  /* Classroom flashcards */
+  .mode-header { display: flex; align-items: center; justify-content: space-between; gap: 13px; padding: 18px 22px; border-bottom: 2px solid var(--line); background: #f7faff; }
+  .mode-header strong { display: block; font-size: clamp(20px, 3.4vw, 27px); }
+  .mode-badge { flex: 0 0 auto; padding: 9px 13px; border-radius: 999px; color: var(--blue-dark); background: var(--sky); font-size: 14px; font-weight: 950; }
+  .lesson-wrap { min-height: calc(100vh - 120px); display: grid; place-items: center; padding: 12px 0 30px; }
+  .lesson-panel { width: min(760px, 100%); border: 3px solid var(--line); border-radius: var(--radius-xl); background: #fff; box-shadow: var(--shadow); overflow: hidden; }
+  .flash-stage { position: relative; display: grid; place-items: center; min-height: 500px; padding: 34px 22px 26px; text-align: center; background: radial-gradient(circle at 20% 15%, #fff6c9 0 7%, transparent 7.4%), radial-gradient(circle at 80% 82%, #daf9ed 0 8%, transparent 8.4%), #fff; }
+  .flashcard { width: min(460px, 100%); padding: 20px; border: 3px solid var(--line); border-radius: 30px; background: #fff; box-shadow: var(--shadow-soft); }
+  .flashcard.pop { animation: cardPop .4s cubic-bezier(.2,.85,.3,1.2) both; }
+  @keyframes cardPop { from { opacity: 0; transform: scale(.85) rotate(-2deg); } }
+  .flash-media { display: grid; place-items: center; min-height: 220px; margin-bottom: 14px; border-radius: 24px; background: linear-gradient(160deg,#f4f9ff,#eef6ff); overflow: hidden; }
+  .flash-media img { width: 100%; height: 240px; object-fit: cover; display: block; }
+  .flash-media .flash-emoji-fallback { font-size: clamp(90px, 22vw, 150px); line-height: 1; padding: 20px; }
+  .word-en { margin-top: 6px; font-size: clamp(30px, 6vw, 46px); font-weight: 1000; letter-spacing: -.03em; }
+  .lesson-controls { display: flex; justify-content: center; gap: 12px; margin-top: 22px; flex-wrap: wrap; }
+  .lesson-counter { flex: 0 0 auto; padding: 9px 13px; border-radius: 999px; color: var(--blue-dark); background: var(--sky); font-weight: 950; }
+  .session-end { display: grid; place-items: center; min-height: 500px; padding: 30px 22px; text-align: center; }
+  .session-end .end-icon { font-size: 70px; animation: celebrate .9s ease infinite alternate; }
+  @keyframes celebrate { to { transform: translateY(-8px) rotate(6deg); } }
+  .session-end h2 { margin: 16px 0 8px; font-size: clamp(32px, 6vw, 52px); letter-spacing: -.045em; }
+  .session-end p { max-width: 560px; margin: 0 auto 24px; color: var(--muted); font-size: 19px; line-height: 1.5; font-weight: 800; }
+  .end-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 13px; }
+
+  .confetti { position: fixed; pointer-events: none; z-index: 100; width: 10px; height: 16px; border-radius: 3px; animation: confettiFall 1.4s linear forwards; }
+  @keyframes confettiFall { to { transform: translate(var(--x), 110vh) rotate(720deg); opacity: 0; } }
+
+  /* Fish bucket + fly animation (reused mechanic) */
+  .fish-bucket { position: fixed; right: 16px; bottom: 14px; z-index: 35; display: none; width: 205px; padding: 12px 14px 15px; border: 4px solid #b9d8ff; border-radius: 31px 31px 48px 48px; background: #e6f4ff; box-shadow: var(--shadow); text-align: center; overflow: visible; }
+  .fish-bucket.show { display: block; animation: bucketIn .4s ease both; }
+  @keyframes bucketIn { from { opacity: 0; transform: translateY(30px) scale(.8); } }
+  .bucket-handle { width: 156px; height: 52px; margin: -49px auto 0; border: 9px solid #8dc2f5; border-bottom: 0; border-radius: 60px 60px 0 0; }
+  .bucket-title { margin: 7px 0 8px; color: var(--blue-dark); font-weight: 1000; font-size: 18px; }
+  .fish-water { position: relative; min-height: 110px; display: flex; align-content: flex-end; justify-content: center; flex-wrap: wrap; gap: 3px; padding: 13px 8px; border-radius: 20px 20px 35px 35px; background: linear-gradient(#9adeff, #68b8ef); font-size: 30px; line-height: 1; overflow: hidden; box-shadow: inset 0 9px 0 rgba(255,255,255,.25); }
+  .fish-water::before { content: ""; position: absolute; inset: 7px 8px auto; height: 8px; border-radius: 50%; background: rgba(255,255,255,.38); }
+  .fish-water span { position: relative; z-index: 1; display: inline-block; animation: fishDrop .55s cubic-bezier(.2,.9,.2,1.25) both; }
+  @keyframes fishDrop { from { opacity: 0; transform: translateY(-50px) rotate(-25deg) scale(.5); } to { opacity: 1; transform: none; } }
+  .bucket-empty { align-self: center; color: rgba(25,91,141,.72); font-size: 14px; font-weight: 1000; }
+  .flying-fish { position: fixed; z-index: 9999; left: 0; top: 0; pointer-events: none; font-size: 54px; line-height: 1; filter: drop-shadow(0 9px 8px rgba(38,50,75,.2)); will-change: transform; }
+  .bucket-bounce { animation: bucketCatch .52s ease; }
+  @keyframes bucketCatch { 35% { transform: scale(1.09) rotate(-2deg); } 68% { transform: scale(.96) rotate(1deg); } }
+
+  /* Modals */
+  .modal-backdrop { position: fixed; z-index: 1000; inset: 0; display: none; place-items: center; padding: 18px; background: rgba(35,49,78,.38); backdrop-filter: blur(7px); }
+  .modal-backdrop.open { display: grid; animation: modalFade .2s ease both; }
+  @keyframes modalFade { from { opacity: 0; } }
+  .modal-card { position: relative; width: min(760px, 100%); max-height: calc(100vh - 36px); overflow: auto; padding: 28px; border: 3px solid #d7e7fb; border-radius: 30px; background: #fff; box-shadow: 0 28px 80px rgba(30,50,90,.25); animation: modalPop .28s ease both; }
+  @keyframes modalPop { from { opacity: 0; transform: translateY(18px) scale(.96); } }
+  .modal-close { position: absolute; top: 14px; right: 14px; width: 44px; height: 44px; border: 2px solid #dbe7f5; border-radius: 14px; color: var(--ink); background: #fff; font-size: 20px; font-weight: 1000; cursor: pointer; }
+  .modal-heading { display: flex; align-items: center; gap: 14px; padding-right: 48px; margin-bottom: 20px; }
+  .modal-heading h2 { margin: 0; font-size: clamp(25px, 5vw, 35px); }
+  .modal-heading p { margin: 4px 0 0; color: var(--muted); font-weight: 800; }
+  .modal-icon { width: 68px; height: 68px; display: grid; place-items: center; flex: 0 0 auto; border-radius: 22px; background: #eaf4ff; font-size: 39px; }
+  .modal-actions { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 11px; margin-top: 17px; }
+
+  /* Fish tank (single classic theme) */
+  .fish-tank { position: relative; height: min(430px, 58vh); min-height: 300px; overflow: hidden; border: 10px solid #b9dbf5; border-top-color: #d7edff; border-radius: 35px 35px 50px 50px; background: linear-gradient(180deg, #d9f5ff 0%, #89d7f4 43%, #4db1df 100%); box-shadow: inset 0 10px 0 rgba(255,255,255,.55), inset 0 -20px 40px rgba(20,103,158,.12), 0 13px 0 #e7f2fa; }
+  .fish-tank::before { content: ""; position: absolute; z-index: 4; inset: 12px 18px auto; height: 12px; border-radius: 50%; background: rgba(255,255,255,.43); }
+  .tank-fish-layer { position: absolute; z-index: 3; inset: 18px 0 46px; overflow: hidden; }
+  .tank-fish { position: absolute; left: -15%; top: var(--top); font-size: var(--size); line-height: 1; filter: drop-shadow(0 4px 3px rgba(18,85,126,.18)); animation: swimRight var(--duration) linear var(--delay) infinite; pointer-events: none; }
+  .tank-fish.reverse { left: auto; right: -15%; animation-name: swimLeft; }
+  @keyframes swimRight { 0% { left: -15%; transform: translateY(0) rotate(-3deg) scaleX(1); } 45% { transform: translateY(-10px) rotate(3deg) scaleX(1); } 100% { left: 112%; transform: translateY(4px) rotate(-2deg) scaleX(1); } }
+  @keyframes swimLeft { 0% { right: -15%; transform: translateY(0) rotate(3deg) scaleX(-1); } 45% { transform: translateY(10px) rotate(-3deg) scaleX(-1); } 100% { right: 112%; transform: translateY(-4px) rotate(2deg) scaleX(-1); } }
+  .tank-gravel { position: absolute; z-index: 2; left: -2%; right: -2%; bottom: -2px; height: 62px; background: radial-gradient(circle at 12px 12px, #f9d59d 0 7px, transparent 8px) 0 0/30px 25px, linear-gradient(#f2c785,#dcae6b); border-radius: 55% 55% 0 0; }
+  .tank-plant, .tank-castle { position: absolute; z-index: 3; bottom: 34px; font-size: 65px; filter: drop-shadow(0 4px 3px rgba(38,50,75,.14)); }
+  .plant-one { left: 5%; } .plant-two { right: 7%; font-size: 54px; } .tank-castle { left: 47%; font-size: 58px; }
+  .tank-empty { position: absolute; z-index: 5; inset: 45% 20px auto; transform: translateY(-50%); padding: 14px; border-radius: 18px; color: #1e6998; background: rgba(255,255,255,.82); text-align: center; font-weight: 1000; }
+  .tank-bubbles i { position: absolute; z-index: 1; bottom: 42px; width: 12px; height: 12px; border: 2px solid rgba(255,255,255,.58); border-radius: 50%; animation: bubbleUp 4.5s linear infinite; }
+  .tank-bubbles i:nth-child(1){left:16%;animation-delay:-1s}.tank-bubbles i:nth-child(2){left:29%;width:8px;height:8px;animation-delay:-3s}.tank-bubbles i:nth-child(3){left:55%;animation-delay:-2s}.tank-bubbles i:nth-child(4){left:75%;width:17px;height:17px;animation-delay:-4s}.tank-bubbles i:nth-child(5){left:88%;width:9px;height:9px;animation-delay:-.5s}
+  @keyframes bubbleUp { from { transform: translateY(0) scale(.7); opacity: 0; } 15% { opacity: .8; } to { transform: translateY(-340px) scale(1.15); opacity: 0; } }
+  .tank-note { margin: 22px 0 0; color: var(--muted); text-align: center; font-weight: 900; }
+  .tank-decor-layer { position: absolute; z-index: 2; inset: 0; pointer-events: none; }
+  .tank-decor-item { position: absolute; bottom: var(--bottom); left: var(--left); font-size: var(--decor-size); line-height: 1; transform: rotate(var(--rotate)); filter: drop-shadow(0 5px 4px rgba(20,45,75,.2)); }
+
+  /* Match game */
+  .match-wrap { min-height: calc(100vh - 120px); display: grid; place-items: center; padding: 12px 0 30px; }
+  .match-panel { width: min(920px, 100%); border: 3px solid var(--line); border-radius: var(--radius-xl); background: #fff; box-shadow: var(--shadow); overflow: hidden; }
+  .match-sets { display: flex; flex-wrap: wrap; gap: 10px; padding: 16px 22px 0; }
+  .set-chip { border: 2px solid var(--line); border-radius: 999px; padding: 9px 16px; background: #fff; color: var(--ink); font-weight: 900; cursor: pointer; box-shadow: 0 4px 0 #edf2fa; }
+  .set-chip.active { border-color: var(--blue); background: var(--sky); color: var(--blue-dark); }
+  .match-board { padding: 24px; }
+  .match-board.mode-slot { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  .tile-col, .slot-col { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px; align-content: start; }
+  .drag-tile { aspect-ratio: 1; border: 3px solid var(--line); border-radius: 20px; background: #fff; display: grid; place-items: center; font-size: clamp(32px, 6vw, 44px); box-shadow: 0 5px 0 #edf2fa; cursor: grab; touch-action: none; user-select: none; transition: opacity .18s ease, transform .12s ease; }
+  .drag-tile:active { cursor: grabbing; }
+  .drag-tile.dragging-source { opacity: .28; }
+  .drag-tile.placed { opacity: 0; pointer-events: none; }
+  .drag-tile.shake { animation: wrongShake .4s ease; }
+  .drop-target { aspect-ratio: 1; border: 3px dashed #b8d2fa; border-radius: 20px; background: #f7faff; display: grid; place-items: center; font-size: clamp(32px, 6vw, 44px); position: relative; transition: transform .12s ease, border-color .12s ease, background .12s ease; }
+  .drop-target .peek { opacity: .38; filter: saturate(.7); transition: opacity .2s ease, filter .2s ease; }
+  .drop-target.hoverActive { border-color: var(--blue); background: #eaf3ff; transform: scale(1.05); }
+  .drop-target.filled { border-style: solid; border-color: var(--mint-dark); background: #eafff7; animation: correctBounce .5s ease; }
+  .drop-target.filled .peek { opacity: 1; filter: none; }
+  .drop-target.wrongFlash { animation: wrongShake .4s ease; border-color: #ff9e91; background: #fff0ed; }
+  .drag-ghost { position: fixed; z-index: 9999; pointer-events: none; display: grid; place-items: center; font-size: clamp(30px, 6vw, 40px); border-radius: 20px; background: #fff; border: 3px solid var(--blue); box-shadow: 0 10px 26px rgba(30,50,90,.28); transform: translate(-50%, -50%) scale(1.08); }
+
+  .match-board.mode-scene { display: grid; gap: 22px; }
+  .scene-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; }
+  .scene-item { position: relative; aspect-ratio: 1; border: 6px solid rgba(255,255,255,.5); border-radius: 26px 26px 34px 34px; overflow: hidden; box-shadow: inset 0 8px 0 rgba(255,255,255,.35), inset 0 -16px 30px rgba(20,45,75,.14), 0 8px 0 #e7f2fa; display: grid; place-items: center; }
+  .scene-item::before { content: ""; position: absolute; z-index: 5; inset: 9px 12px auto; height: 7px; border-radius: 50%; background: rgba(255,255,255,.45); }
+  .scene-item.theme-ocean { border-color: #b9dbf5; background: linear-gradient(180deg, #d9f5ff 0%, #89d7f4 43%, #2f8fc0 100%); }
+  .scene-item.theme-road { border-color: #aab2bf; background: linear-gradient(180deg, #eef1f5 0%, #b7bfcc 45%, #6d7686 100%); }
+  .scene-item.theme-sky { border-color: #cfe7fb; background: linear-gradient(180deg, #f2fbff 0%, #cdeaff 45%, #9fd7ff 100%); }
+  .scene-item.theme-track { border-color: #d8b478; background: linear-gradient(180deg, #ffedc4 0%, #e3c081 45%, #a97a3f 100%); }
+  .scene-item.theme-road::after { content: ""; position: absolute; z-index: 1; left: 50%; top: 8%; bottom: 8%; width: 6px; margin-left: -3px; background: repeating-linear-gradient(180deg, #fff 0 14px, transparent 14px 28px); opacity: .85; }
+  .scene-item.theme-track::after { content: ""; position: absolute; z-index: 2; left: 16%; right: 16%; bottom: 21%; height: 4px; background: #d7dde3; box-shadow: 0 9px 0 #d7dde3; border-radius: 2px; }
+  .scene-hint { position: absolute; z-index: 6; top: 8px; left: 10px; font-size: 20px; filter: drop-shadow(0 2px 2px rgba(0,0,0,.25)); }
+  .scene-ground { position: absolute; z-index: 1; left: -4%; right: -4%; bottom: -2px; height: 30%; }
+  .scene-item.theme-ocean .scene-ground { background: radial-gradient(circle at 9px 9px, #f9d59d 0 5px, transparent 6px) 0 0/22px 18px, linear-gradient(#f2c785,#dcae6b); border-radius: 55% 55% 0 0; }
+  .scene-item.theme-track .scene-ground { height: 34%; background: repeating-linear-gradient(90deg, #8a5a2d 0 9px, #6b4420 9px 20px); }
+  .scene-bubbles { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+  .scene-bubbles i { position: absolute; bottom: 20%; width: 7px; height: 7px; border: 2px solid rgba(255,255,255,.65); border-radius: 50%; animation: sceneBubbleUp 3.6s linear infinite; }
+  .scene-bubbles i:nth-child(1) { left: 18%; animation-delay: -1s; }
+  .scene-bubbles i:nth-child(2) { left: 52%; width: 5px; height: 5px; animation-delay: -2.2s; }
+  .scene-bubbles i:nth-child(3) { left: 76%; animation-delay: -.5s; }
+  @keyframes sceneBubbleUp { from { transform: translateY(0) scale(.7); opacity: 0; } 18% { opacity: .85; } to { transform: translateY(-120px) scale(1.1); opacity: 0; } }
+  .scene-decor { position: absolute; z-index: 2; font-size: 20px; filter: drop-shadow(0 3px 3px rgba(0,0,0,.16)); }
+  .scene-decor.float-cloud { font-size: 22px; animation: float 5s ease-in-out infinite; }
+  .scene-drop { width: 62%; height: 62%; max-width: 130px; max-height: 130px; border: 4px dashed rgba(255,255,255,.9); border-radius: 50%; display: grid; place-items: center; background: rgba(255,255,255,.18); font-size: clamp(30px, 9vw, 46px); position: relative; z-index: 6; transition: transform .12s ease, border-color .12s ease, background .12s ease; }
+  .scene-drop.hoverActive { border-color: #fff; background: rgba(255,255,255,.42); transform: scale(1.12); }
+  .scene-drop.filled { border-style: solid; border-color: #2fa27d; background: rgba(255,255,255,.94); animation: correctBounce .5s ease; }
+  .scene-tray { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; padding-top: 4px; }
+  .scene-tray .drag-tile { width: 76px; height: 76px; aspect-ratio: unset; }
+  @keyframes correctBounce { 50% { transform: scale(1.1) rotate(2deg); } }
+  @keyframes wrongShake { 20%,60% { transform: translateX(-8px); } 40%,80% { transform: translateX(8px); } }
+  .match-status { min-height: 40px; margin: 4px 24px 22px; text-align: center; font-size: 18px; font-weight: 1000; color: var(--muted); }
+  .match-status.good { color: var(--mint-dark); }
+
+  /* Puzzle game */
+  .puzzle-wrap { min-height: calc(100vh - 120px); display: grid; place-items: center; padding: 12px 0 30px; }
+  .puzzle-panel { width: min(720px, 100%); border: 3px solid var(--line); border-radius: var(--radius-xl); background: #fff; box-shadow: var(--shadow); overflow: hidden; }
+  .puzzle-picker { display: flex; flex-wrap: wrap; gap: 9px; padding: 16px 22px 0; }
+  .puzzle-body { padding: 22px; text-align: center; }
+  .puzzle-board { width: min(360px, 90vw); aspect-ratio: 1; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); gap: 3px; border: 5px solid #dce7f7; border-radius: 22px; overflow: hidden; background: #dce7f7; }
+  .puzzle-cell { background-repeat: no-repeat; }
+  .puzzle-cell.missing { display: grid; place-items: center; background: repeating-linear-gradient(45deg,#f4f9ff,#f4f9ff 8px,#eaf1fc 8px,#eaf1fc 16px); font-size: 30px; color: #a9bedb; }
+  .puzzle-cell.reveal { animation: pieceReveal .5s ease both; }
+  @keyframes pieceReveal { from { opacity: 0; transform: scale(.6) rotate(-8deg); } to { opacity: 1; transform: none; } }
+  .puzzle-options { display: flex; justify-content: center; gap: 16px; margin-top: 22px; flex-wrap: wrap; }
+  .puzzle-option { width: 96px; height: 96px; border: 4px solid var(--line); border-radius: 20px; cursor: pointer; background-repeat: no-repeat; box-shadow: 0 6px 0 #edf2fa; transition: transform .14s ease, border-color .14s ease; }
+  .puzzle-option:hover { transform: translateY(-3px); }
+  .puzzle-option.wrong { animation: wrongShake .4s ease; border-color: #ff9e91; }
+  .puzzle-option.correctPick { border-color: var(--mint-dark); }
+  .puzzle-status { min-height: 30px; margin-top: 18px; font-size: 18px; font-weight: 1000; color: var(--muted); }
+  .puzzle-status.good { color: var(--mint-dark); }
+  .puzzle-actions { display: flex; justify-content: center; gap: 12px; margin-top: 18px; flex-wrap: wrap; }
+
+  /* Admin */
+  .admin-wrap { padding: 6px 0 40px; }
+  .admin-panel { border: 3px solid var(--line); border-radius: var(--radius-xl); background: #fff; box-shadow: var(--shadow); overflow: hidden; }
+  .admin-tabs { display: flex; gap: 10px; padding: 18px 22px 0; }
+  .admin-tab-btn { border: 2px solid var(--line); border-radius: 16px; padding: 12px 18px; background: #fff; color: var(--ink); font-weight: 950; cursor: pointer; box-shadow: 0 4px 0 #edf2fa; }
+  .admin-tab-btn.active { border-color: var(--blue); background: var(--sky); color: var(--blue-dark); }
+  .admin-body { padding: 20px 22px 26px; }
+  .admin-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 5px 0; }
+  .admin-select-row { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; flex-wrap: wrap; }
+  .admin-select-row select { min-height: 48px; padding: 8px 14px; border: 2px solid var(--line); border-radius: 14px; background: #fff; font-weight: 900; }
+  .word-list { display: grid; gap: 10px; }
+  .word-row { display: grid; grid-template-columns: 66px 1fr auto auto; align-items: center; gap: 14px; padding: 10px 12px; border: 2px solid var(--line); border-radius: 18px; background: #fbfdff; }
+  .word-thumb { width: 60px; height: 60px; border-radius: 14px; display: grid; place-items: center; background: #eef5ff; font-size: 30px; overflow: hidden; }
+  .word-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .word-label { font-weight: 950; font-size: 17px; }
+  .file-btn { position: relative; overflow: hidden; }
+  .file-btn input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+  .puzzle-admin-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 14px; }
+  .puzzle-admin-card { border: 2px solid var(--line); border-radius: 18px; padding: 12px; text-align: center; background: #fbfdff; }
+  .puzzle-admin-card .thumb { width: 100%; aspect-ratio: 1; border-radius: 14px; background-size: cover; background-position: center; margin-bottom: 8px; }
+  .puzzle-admin-card strong { display: block; font-size: 14px; margin-bottom: 6px; }
+  .puzzle-admin-card .badge { display: inline-block; margin-bottom: 6px; padding: 3px 9px; border-radius: 999px; background: #fff3cd; color: #8c6727; font-size: 11px; font-weight: 900; }
+  .add-puzzle-card { border: 2px dashed #b8d2fa; border-radius: 18px; padding: 14px; background: #f7faff; display: grid; gap: 8px; }
+  .add-puzzle-card input[type=text] { min-height: 42px; padding: 8px 12px; border: 2px solid var(--line); border-radius: 12px; }
+  .danger-btn { border: 0; border-radius: 12px; padding: 8px 12px; background: #fff0ed; color: #b4483d; font-weight: 900; cursor: pointer; }
+
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+  .hidden { display: none !important; }
+
+  @media (max-width: 950px) {
+    .hero { grid-template-columns: 1fr; } .hero-art { min-height: 260px; } .topic-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .fish-bucket { width: 170px; } .fish-water { min-height: 86px; font-size: 24px; }
+    .match-board.mode-slot { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 720px) {
+    .app-shell { width: min(100% - 18px, 1180px); padding-top: 9px; }
+    .topbar { border-radius: 18px; padding: 9px 10px; } .brand small { display: none; }
+    .brand-mascot { width: 43px; height: 43px; font-size: 26px; }
+    .home-btn { min-width: 45px; width: 45px; padding: 0; font-size: 0; } .home-btn::before { content: "🏠"; font-size: 21px; }
+    .top-pill-btn { width: 46px; padding: 0; font-size: 21px; } .top-pill-btn span, .top-pill-btn strong { display: none; }
+    .hero { padding: 26px 18px; } .hero-art { min-height: 210px; } .hero-bubble { width: 210px; } .float-sticker { font-size: 32px; }
+    .section-head { align-items: stretch; flex-direction: column; } .topic-tools { width: 100%; } .search-wrap { width: 100%; min-width: 0; }
+    .topic-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; } .topic-card { min-height: 128px; padding: 13px 10px; border-radius: 18px; }
+    .adventure-grid { grid-template-columns: 1fr; }
+    .fish-bucket { right: 8px; bottom: 8px; width: 150px; padding: 8px 9px 10px; }
+    .bucket-handle { width: 96px; height: 34px; margin-top: -32px; border-width: 6px; } .bucket-title { font-size: 13px; }
+    .fish-water { min-height: 66px; font-size: 19px; }
+    .word-row { grid-template-columns: 50px 1fr; row-gap: 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mascot" aria-hidden="true">🦊</div>
+      <div><h1>Word Fish <span class="brand-baby">Baby</span></h1><small>Learn • Play • Catch Fish</small></div>
+    </div>
+    <div class="top-actions">
+      <button class="top-pill-btn" id="tankBtn" type="button" aria-label="Open fish tank">🐠 <span>Fish Tank</span> <strong id="totalFishTop">0</strong></button>
+      <button class="icon-btn" id="adminBtn" type="button" aria-label="Open admin picture manager" title="Admin: Manage Pictures">🛠️</button>
+      <button class="icon-btn" id="dataBtn" type="button" aria-label="Backup and restore" title="Backup & Restore">☁️</button>
+      <button class="home-btn" id="homeBtn" type="button" aria-label="Go home">Home</button>
+      <button class="icon-btn" id="soundBtn" type="button" aria-label="Turn sound off" title="Sound on">🔊</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="screen active" id="homeScreen">
+      <div class="hero">
+        <div class="hero-copy">
+          <span class="eyebrow">✨ English for little explorers</span>
+          <h2>Look, listen,<br><span>and learn fun words!</span></h2>
+          <p>Pick a topic to see pictures and hear friendly English words, then play games to catch colorful fish.</p>
+          <div class="hero-buttons">
+            <button class="primary-btn" id="surpriseBtn" type="button">🎲 Surprise Me</button>
+            <button class="secondary-btn" id="browseBtn" type="button">🧭 Choose a Topic</button>
+          </div>
+          <div class="progress-summary">
+            <button class="progress-chip clickable" id="homeTankBtn" type="button">🐠 <strong id="homeFishCount">0</strong> fish in my tank</button>
+            <div class="progress-chip">✅ <strong id="completedCount">0</strong> topics explored</div>
+          </div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="hero-bubble">🐠</div>
+          <span class="float-sticker one">⭐</span>
+          <span class="float-sticker two">🐠</span>
+          <span class="float-sticker three">🔤</span>
+        </div>
+      </div>
+
+      <section class="adventure-section" aria-labelledby="adventureTitle">
+        <div class="adventure-heading">
+          <h3 id="adventureTitle">Fun mini games</h3>
+          <p>Play and catch even more fish!</p>
+        </div>
+        <div class="adventure-grid">
+          <button class="adventure-card match" id="matchModeBtn" type="button">
+            <span><span class="adventure-title">Match Game</span><span class="adventure-description">Connect matching pictures — cars with colors, animals with food, and more!</span></span>
+            <span class="adventure-icon" aria-hidden="true">🔗</span>
+          </button>
+          <button class="adventure-card puzzle" id="puzzleModeBtn" type="button">
+            <span><span class="adventure-title">Picture Puzzle</span><span class="adventure-description">Find the missing puzzle piece and complete the picture!</span></span>
+            <span class="adventure-icon" aria-hidden="true">🧩</span>
+          </button>
+        </div>
+      </section>
+
+      <div class="section-head" id="topicSection">
+        <div><h3>Choose a topic</h3><p>Tap a topic to see picture flashcards with audio.</p></div>
+        <div class="topic-tools">
+          <label class="search-wrap"><span aria-hidden="true">🔎</span><span class="sr-only">Search topics</span>
+            <input id="topicSearch" type="search" placeholder="Search a topic…" autocomplete="off" />
+          </label>
+        </div>
+      </div>
+      <div class="topic-grid" id="topicGrid" aria-live="polite"></div>
+    </section>
+
+    <section class="screen" id="classroomScreen">
+      <div class="lesson-wrap">
+        <div class="lesson-panel">
+          <div class="mode-header">
+            <strong id="lessonTopic">Topic</strong>
+            <span class="mode-badge" id="lessonCounter">1 / 8</span>
+          </div>
+          <div id="lessonCardView">
+            <div class="flash-stage">
+              <article class="flashcard" id="flashcard" aria-live="polite">
+                <div class="flash-media" id="flashMedia"><div class="flash-emoji-fallback" id="flashEmoji">🍎</div></div>
+                <div class="word-en" id="flashEnglish">apple</div>
+              </article>
+            </div>
+            <div class="lesson-controls" style="padding-bottom:26px">
+              <button class="small-btn" id="backCardBtn" type="button">⬅️ Back</button>
+              <button class="small-btn" id="listenBtn" type="button">🔊 Listen again</button>
+              <button class="primary-btn" id="nextCardBtn" type="button">Next ➡️</button>
+            </div>
+          </div>
+          <div class="session-end hidden" id="lessonEndView">
+            <div>
+              <div class="end-icon">🌟</div>
+              <h2>Great learning!</h2>
+              <p>You finished the <strong id="endTopicName">topic</strong> flashcards and caught a new fish!</p>
+              <div class="end-actions">
+                <button class="primary-btn" id="replayLessonBtn" type="button">🔁 Play Again</button>
+                <button class="secondary-btn" id="lessonHomeBtn" type="button">🧭 Choose Another Topic</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" id="matchScreen">
+      <div class="match-wrap">
+        <div class="match-panel">
+          <div class="mode-header"><strong>🔗 Match Game</strong><span class="mode-badge">Tap a pair!</span></div>
+          <div class="match-sets" id="matchSets"></div>
+          <div class="match-board" id="matchBoard"></div>
+          <div class="match-status" id="matchStatus">Tap an item on the left, then its match on the right.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" id="puzzleScreen">
+      <div class="puzzle-wrap">
+        <div class="puzzle-panel">
+          <div class="mode-header"><strong>🧩 Picture Puzzle</strong><span class="mode-badge">Find the missing piece!</span></div>
+          <div class="puzzle-picker" id="puzzlePicker"></div>
+          <div class="puzzle-body">
+            <div class="puzzle-board" id="puzzleBoard"></div>
+            <div class="puzzle-options" id="puzzleOptions"></div>
+            <div class="puzzle-status" id="puzzleStatus">Tap the piece that completes the picture!</div>
+            <div class="puzzle-actions"><button class="small-btn" id="newPuzzleBtn" type="button">🔁 New Puzzle</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" id="adminScreen">
+      <div class="admin-wrap">
+        <div class="admin-panel">
+          <div class="mode-header"><strong>🛠️ Manage Pictures</strong><span class="mode-badge">Admin only</span></div>
+          <div class="admin-tabs">
+            <button class="admin-tab-btn active" id="adminTabFlash" type="button">🖼️ Flashcard Pictures</button>
+            <button class="admin-tab-btn" id="adminTabPuzzle" type="button">🧩 Puzzle Pictures</button>
+          </div>
+          <div class="admin-body">
+            <div id="adminFlashPanel">
+              <div class="admin-select-row">
+                <label for="adminTopicSelect"><strong>Topic:</strong></label>
+                <select id="adminTopicSelect"></select>
+              </div>
+              <div class="word-list" id="adminWordList"></div>
+            </div>
+            <div id="adminPuzzlePanel" class="hidden">
+              <div class="puzzle-admin-grid" id="adminPuzzleGrid"></div>
+              <h3 style="margin:22px 0 10px">Add a new puzzle picture</h3>
+              <div class="add-puzzle-card">
+                <input type="text" id="newPuzzleName" placeholder="Picture name (e.g. My Cat)" />
+                <label class="small-btn file-btn" style="text-align:center">📤 Choose Image<input type="file" id="newPuzzleFile" accept="image/*" /></label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<aside class="fish-bucket" id="fishBucket" aria-live="polite" aria-label="Fish bucket">
+  <div class="bucket-handle"></div>
+  <div class="bucket-title">New Fish: <span id="fishCount">0</span></div>
+  <div class="fish-water" id="fishWater"><span class="bucket-empty">Catch a fish!</span></div>
+</aside>
+
+<div class="modal-backdrop" id="tankModal" role="dialog" aria-modal="true" aria-labelledby="tankTitle">
+  <section class="modal-card">
+    <button class="modal-close" id="closeTankBtn" type="button" aria-label="Close fish tank">✕</button>
+    <div class="modal-heading">
+      <div class="modal-icon">🐠</div>
+      <div><h2 id="tankTitle">My Fish Tank</h2><p><strong id="tankFishCount">0</strong> happy fish collected</p></div>
+    </div>
+    <div class="fish-tank" id="fishTank" aria-label="Animated fish tank">
+      <div class="tank-bubbles" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="tank-fish-layer" id="tankFishLayer"></div>
+      <div class="tank-decor-layer" aria-hidden="true">
+        <span class="tank-decor-item" style="--left:6%;--bottom:31px;--decor-size:64px;--rotate:-5deg">🌿</span>
+        <span class="tank-decor-item" style="--left:45%;--bottom:31px;--decor-size:60px;--rotate:0deg">🏰</span>
+        <span class="tank-decor-item" style="--left:84%;--bottom:32px;--decor-size:55px;--rotate:4deg">🌱</span>
+      </div>
+      <div class="tank-gravel" aria-hidden="true"></div>
+      <div class="tank-empty" id="tankEmpty">Learn words or play games to add your first fish! 🐟</div>
+    </div>
+    <p class="tank-note">Every flashcard set and mini game you finish adds a happy fish to your tank!</p>
+  </section>
+</div>
+
+<div class="modal-backdrop" id="dataModal" role="dialog" aria-modal="true" aria-labelledby="dataTitle">
+  <section class="modal-card">
+    <button class="modal-close" id="closeDataBtn" type="button" aria-label="Close backup settings">✕</button>
+    <div class="modal-heading">
+      <div class="modal-icon">☁️</div>
+      <div><h2 id="dataTitle">Backup & Restore</h2><p>Save your pictures and fish progress to a file, or restore from one.</p></div>
+    </div>
+    <p style="color:var(--muted);font-weight:800;line-height:1.5">Everything (uploaded pictures, fish tank, and progress) is saved in this browser. Download a backup file to keep it safe, or move it to another device.</p>
+    <div class="modal-actions">
+      <label class="small-btn file-btn" style="text-align:center">⬆️ Restore from File<input type="file" id="restoreFile" accept="application/json" /></label>
+      <button class="primary-btn" id="downloadBackupBtn" type="button">⬇️ Download Backup</button>
+    </div>
+    <hr style="border:none;border-top:2px solid var(--line);margin:22px 0" />
+    <div class="modal-heading" style="margin-bottom:8px">
+      <div class="modal-icon">🚀</div>
+      <div><h2 style="font-size:22px">Publish to GitHub</h2><p>Push this data as data.json to the sseoyi/wordfishbaby repo.</p></div>
+    </div>
+    <p style="color:var(--muted);font-weight:800;line-height:1.5">Paste a GitHub personal access token with access to <strong>sseoyi/wordfishbaby</strong> (repo scope). It's kept only in this browser's storage, never sent anywhere but GitHub's API.</p>
+    <label style="display:block;font-weight:900;margin:10px 0 6px" for="ghTokenInput">GitHub token</label>
+    <input type="password" id="ghTokenInput" placeholder="ghp_..." autocomplete="off" style="width:100%;padding:12px 14px;border:2px solid var(--line);border-radius:14px;font:inherit;font-weight:700;color:var(--ink);margin-bottom:12px" />
+    <div class="modal-actions">
+      <button class="secondary-btn" id="publishBtn" type="button">🚀 Publish data.json</button>
+    </div>
+    <p id="publishStatus" style="margin-top:10px;font-weight:850;min-height:20px"></p>
+  </section>
+</div>
+
+<script>
+/* ---------- Data ---------- */
+const TOPICS = [
+  { name: "Colors", emoji: "🎨", words: [
+    ["red","🔴"],["blue","🔵"],["yellow","🟡"],["green","🟢"],["orange","🟠"],["purple","🟣"],["pink","🩷"],["black","⚫"],["white","⚪"]
+  ]},
+  { name: "Numbers", emoji: "🔢", words: [
+    ["one","1️⃣"],["two","2️⃣"],["three","3️⃣"],["four","4️⃣"],["five","5️⃣"],["six","6️⃣"],["seven","7️⃣"],["eight","8️⃣"],["nine","9️⃣"],["ten","🔟"]
+  ]},
+  { name: "Shapes", emoji: "🔷", words: [
+    ["circle","⚪"],["square","🟦"],["triangle","🔺"],["rectangle","▭"],["star","⭐"],["heart","❤️"]
+  ]},
+  { name: "Family", emoji: "👨‍👩‍👧‍👦", words: [
+    ["mother","👩"],["father","👨"],["sister","👧"],["brother","👦"],["baby","👶"],["grandmother","👵"],["grandfather","👴"]
+  ]},
+  { name: "Chores", emoji: "🧹", words: [
+    ["clean room","🧹"],["wash dishes","🧽"],["water plants","🚿"],["make bed","🛏️"],["feed pet","🐶"],["take out trash","🗑️"],["fold laundry","👕"],["set the table","🍽️"]
+  ]},
+  { name: "Sports", emoji: "⚽", words: [
+    ["football","⚽"],["basketball","🏀"],["tennis","🎾"],["swimming","🏊"],["running","🏃"],["cycling","🚴"],["baseball","⚾"],["badminton","🏸"]
+  ]},
+  { name: "Activities", emoji: "🎨", words: [
+    ["reading","📖"],["drawing","🎨"],["singing","🎤"],["dancing","💃"],["painting","🖌️"],["playing","🧸"],["jumping","🤸"],["cooking","🍳"]
+  ]},
+  { name: "Transportation", emoji: "🚌", words: [
+    ["car","🚗"],["bus","🚌"],["bicycle","🚲"],["train","🚆"],["airplane","✈️"],["boat","⛵"],["taxi","🚕"],["motorcycle","🏍️"]
+  ]},
+  { name: "Animals", emoji: "🐶", words: [
+    ["dog","🐶"],["cat","🐱"],["lion","🦁"],["elephant","🐘"],["rabbit","🐰"],["bird","🐦"],["fish","🐠"],["monkey","🐵"]
+  ]},
+  { name: "Fruits", emoji: "🍓", words: [
+    ["apple","🍎"],["banana","🍌"],["orange","🍊"],["grapes","🍇"],["strawberry","🍓"],["watermelon","🍉"],["pineapple","🍍"],["mango","🥭"]
+  ]},
+  { name: "Weather", emoji: "🌤️", words: [
+    ["sunny","☀️"],["rainy","🌧️"],["cloudy","☁️"],["windy","🌬️"],["snowy","❄️"],["hot","🥵"],["cold","🥶"]
+  ]},
+  { name: "Body", emoji: "🧍", words: [
+    ["head","🙂"],["hand","✋"],["arm","💪"],["leg","🦵"],["foot","🦶"],["eyes","👀"],["nose","👃"],["mouth","👄"]
+  ]}
+];
+
+/* Two drag-and-drop match modes:
+   'slot'  = drag an image-only tile onto its matching dashed drop-square
+   'scene' = drag an image-only tile onto the matching background scene (drop point at its center) */
+const MATCH_SETS = [
+  { id: "colors", name: "🎨 Cars & Colors", mode: "slot",
+    pairs: [
+      { id: "red", tileEmoji: "🚗", color: "#ff4d4d" },
+      { id: "blue", tileEmoji: "🚗", color: "#4d8dff" },
+      { id: "yellow", tileEmoji: "🚗", color: "#ffd23f" },
+      { id: "green", tileEmoji: "🚗", color: "#4dd28f" },
+      { id: "orange", tileEmoji: "🚗", color: "#ff9a3f" },
+      { id: "purple", tileEmoji: "🚗", color: "#a875ff" }
+    ]},
+  { id: "places", name: "🚗 Vehicles & Places", mode: "scene",
+    scenes: [
+      { id: "road", emoji: "🛣️" },
+      { id: "ocean", emoji: "🌊" },
+      { id: "sky", emoji: "☁️" },
+      { id: "track", emoji: "🛤️" }
+    ],
+    items: [
+      { id: "road", emoji: "🚗" },
+      { id: "ocean", emoji: "🚢" },
+      { id: "sky", emoji: "✈️" },
+      { id: "track", emoji: "🚂" }
+    ]},
+  { id: "food", name: "🐰 Animals & Food", mode: "slot",
+    pairs: [
+      { id: "rabbit", tileEmoji: "🐰", targetEmoji: "🥕" },
+      { id: "lion", tileEmoji: "🦁", targetEmoji: "🍖" },
+      { id: "dog", tileEmoji: "🐶", targetEmoji: "🦴" },
+      { id: "fish", tileEmoji: "🐠", targetEmoji: "🌿" },
+      { id: "bird", tileEmoji: "🐦", targetEmoji: "🌰" }
+    ]}
+];
+
+const DEFAULT_PUZZLES = [
+  { id: "p_apple", name: "Apple", emoji: "🍎", bg: "#ffe1e1" },
+  { id: "p_sun", name: "Sun", emoji: "☀️", bg: "#fff3b8" },
+  { id: "p_dog", name: "Dog", emoji: "🐶", bg: "#f2e6d3" },
+  { id: "p_ball", name: "Ball", emoji: "⚽", bg: "#dcf7e6" },
+  { id: "p_star", name: "Star", emoji: "⭐", bg: "#dfeaff" },
+  { id: "p_house", name: "House", emoji: "🏠", bg: "#ffe3f0" }
+];
+
+const FISH = ['🐟','🐠','🐡','🦈','🐬','🐳','🦐','🦀'];
+const TINTS = ['#fff3c4','#e6f2ff','#e8fff6','#ffe9f0','#f0ebff','#ffefe5'];
+
+/* ---------- Storage ---------- */
+const STORAGE_PROGRESS = 'wordzoo.progress.v1';
+const STORAGE_IMAGES = 'wordzoo.images.v1';
+const STORAGE_PUZZLES = 'wordzoo.puzzles.v1';
+const STORAGE_GH_TOKEN = 'wordfishbaby.ghtoken.v1';
+const GH_REPO = 'sseoyi/wordfishbaby';
+const GH_DATA_PATH = 'data.json';
+const memoryStorage = new Map();
+function storageGet(key) { try { return localStorage.getItem(key); } catch { return memoryStorage.get(key) ?? null; } }
+function storageSet(key, value) { try { localStorage.setItem(key, value); } catch { memoryStorage.set(key, String(value)); } }
+
+function loadJSON(key, fallback) { try { const v = JSON.parse(storageGet(key) || 'null'); return v ?? fallback; } catch { return fallback; } }
+
+let customImages = loadJSON(STORAGE_IMAGES, {});         // { "topicIdx_wordIdx": dataURL }
+let customPuzzles = loadJSON(STORAGE_PUZZLES, []);        // [{id,name,image}]
+let progress = loadJSON(STORAGE_PROGRESS, { accumulatedFish: [], exploredTopics: [] });
+
+function saveImages() { storageSet(STORAGE_IMAGES, JSON.stringify(customImages)); }
+function savePuzzles() { storageSet(STORAGE_PUZZLES, JSON.stringify(customPuzzles)); }
+function saveProgress() { storageSet(STORAGE_PROGRESS, JSON.stringify(progress)); }
+
+function getCustomImage(topicIdx, wordIdx) { return customImages[`${topicIdx}_${wordIdx}`] || null; }
+function setCustomImage(topicIdx, wordIdx, dataUrl) { customImages[`${topicIdx}_${wordIdx}`] = dataUrl; saveImages(); }
+function removeCustomImage(topicIdx, wordIdx) { delete customImages[`${topicIdx}_${wordIdx}`]; saveImages(); }
+
+function allPuzzles() {
+  const defaults = DEFAULT_PUZZLES.map(p => ({ id: p.id, name: p.name, image: generateEmojiImage(p.emoji, p.bg), builtin: true }));
+  return [...defaults, ...customPuzzles.map(p => ({ ...p, builtin: false }))];
+}
+
+/* ---------- Helpers ---------- */
+function shuffle(items) { const arr = [...items]; for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [arr[i], arr[j]] = [arr[j], arr[i]]; } return arr; }
+function randomItem(items) { return items[Math.floor(Math.random() * items.length)]; }
+
+let audioCtx = null;
+function ensureAudio() { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); if (audioCtx.state === 'suspended') audioCtx.resume(); }
+function tone(freq, duration = .08, type = 'sine', delay = 0, volume = .055) {
+  if (!state.soundOn) return; ensureAudio();
+  const start = audioCtx.currentTime + delay;
+  const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+  osc.type = type; osc.frequency.setValueAtTime(freq, start);
+  gain.gain.setValueAtTime(0.0001, start); gain.gain.exponentialRampToValueAtTime(volume, start + .012);
+  gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+  osc.connect(gain).connect(audioCtx.destination); osc.start(start); osc.stop(start + duration + .02);
+}
+const sfx = {
+  tap() { tone(520,.06,'sine',0,.04); tone(690,.055,'sine',.035,.03); },
+  pop() { tone(420,.07,'triangle',0,.04); tone(760,.10,'sine',.05,.045); },
+  correct() { tone(523,.1,'sine',0,.055); tone(659,.1,'sine',.08,.055); tone(784,.16,'sine',.16,.06); },
+  wrong() { tone(220,.12,'sawtooth',0,.035); tone(170,.18,'sawtooth',.1,.03); },
+  fish() { tone(880,.08,'sine',0,.045); tone(1175,.14,'triangle',.07,.05); },
+  splash() { tone(640,.07,'sine',0,.04); tone(420,.13,'triangle',.04,.04); },
+  finish() { [523,659,784,1047].forEach((f,i) => tone(f,.18,'sine',i*.09,.05)); }
+};
+
+let ttsVoice = null;
+function loadVoice() {
+  if (!('speechSynthesis' in window)) return;
+  const voices = speechSynthesis.getVoices(); if (!voices.length) return;
+  const preferred = ['Google US English','Microsoft Aria','Microsoft Jenny','Samantha','Ava','Zira','Karen','Google UK English Female'];
+  ttsVoice = preferred.map(name => voices.find(v => v.name.includes(name))).find(Boolean)
+    || voices.find(v => /^en(-|_)/i.test(v.lang) && /female|woman|girl|aria|jenny|samantha|ava|zira|karen/i.test(v.name))
+    || voices.find(v => /^en(-|_)/i.test(v.lang)) || voices[0];
+}
+loadVoice();
+if ('speechSynthesis' in window) speechSynthesis.onvoiceschanged = loadVoice;
+function speak(text, userTriggered = false) {
+  if (!state.soundOn || !('speechSynthesis' in window)) return;
+  speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'en-US'; u.rate = .72; u.pitch = 1.08; u.volume = 1; if (ttsVoice) u.voice = ttsVoice;
+  const play = () => speechSynthesis.speak(u);
+  if (userTriggered) { ensureAudio(); play(); } else setTimeout(play, 200);
+}
+
+function burstConfetti(count = 30) {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const colors = ['#5b8def','#ffd861','#ff8fb4','#69d7b2','#9e8cff','#ff866e'];
+  for (let i = 0; i < count; i++) {
+    const piece = document.createElement('i'); piece.className = 'confetti';
+    piece.style.left = `${Math.random() * 100}vw`; piece.style.top = `${-20 - Math.random() * 25}px`;
+    piece.style.background = randomItem(colors); piece.style.setProperty('--x', `${(Math.random() - .5) * 260}px`);
+    piece.style.animationDelay = `${Math.random() * .25}s`; piece.style.animationDuration = `${1.1 + Math.random() * .9}s`;
+    document.body.appendChild(piece); setTimeout(() => piece.remove(), 2400);
+  }
+}
+
+/* canvas-generated default puzzle image */
+const emojiImageCache = {};
+function generateEmojiImage(emoji, bg) {
+  const key = emoji + bg; if (emojiImageCache[key]) return emojiImageCache[key];
+  const canvas = document.createElement('canvas'); canvas.width = 300; canvas.height = 300;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = bg; ctx.fillRect(0, 0, 300, 300);
+  ctx.font = '190px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillText(emoji, 150, 168);
+  const url = canvas.toDataURL('image/png'); emojiImageCache[key] = url; return url;
+}
+
+function resizeImageFile(file, maxDim, square, callback) {
+  const reader = new FileReader();
+  reader.onload = e => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      let sw = img.width, sh = img.height, sx = 0, sy = 0;
+      if (square) { const side = Math.min(sw, sh); sx = (sw - side) / 2; sy = (sh - side) / 2; sw = side; sh = side; }
+      const scale = Math.min(1, maxDim / Math.max(sw, sh));
+      canvas.width = Math.round(sw * scale); canvas.height = Math.round(sh * scale);
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, sx, sy, sw, sh, 0, 0, canvas.width, canvas.height);
+      callback(canvas.toDataURL('image/jpeg', 0.85));
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+/* ---------- Screens / state ---------- */
+const screens = {
+  home: document.getElementById('homeScreen'), classroom: document.getElementById('classroomScreen'),
+  match: document.getElementById('matchScreen'), puzzle: document.getElementById('puzzleScreen'),
+  admin: document.getElementById('adminScreen')
+};
+const els = {
+  topicGrid: document.getElementById('topicGrid'), topicSearch: document.getElementById('topicSearch'),
+  surpriseBtn: document.getElementById('surpriseBtn'), browseBtn: document.getElementById('browseBtn'),
+  matchModeBtn: document.getElementById('matchModeBtn'), puzzleModeBtn: document.getElementById('puzzleModeBtn'),
+  homeBtn: document.getElementById('homeBtn'), soundBtn: document.getElementById('soundBtn'),
+  tankBtn: document.getElementById('tankBtn'), homeTankBtn: document.getElementById('homeTankBtn'),
+  adminBtn: document.getElementById('adminBtn'), dataBtn: document.getElementById('dataBtn'),
+  totalFishTop: document.getElementById('totalFishTop'), homeFishCount: document.getElementById('homeFishCount'),
+  completedCount: document.getElementById('completedCount'),
+  lessonTopic: document.getElementById('lessonTopic'), lessonCounter: document.getElementById('lessonCounter'),
+  lessonCardView: document.getElementById('lessonCardView'), lessonEndView: document.getElementById('lessonEndView'),
+  flashcard: document.getElementById('flashcard'), flashMedia: document.getElementById('flashMedia'),
+  flashEnglish: document.getElementById('flashEnglish'),
+  backCardBtn: document.getElementById('backCardBtn'), listenBtn: document.getElementById('listenBtn'), nextCardBtn: document.getElementById('nextCardBtn'),
+  endTopicName: document.getElementById('endTopicName'), replayLessonBtn: document.getElementById('replayLessonBtn'), lessonHomeBtn: document.getElementById('lessonHomeBtn'),
+  fishBucket: document.getElementById('fishBucket'), fishCount: document.getElementById('fishCount'), fishWater: document.getElementById('fishWater'),
+  tankModal: document.getElementById('tankModal'), closeTankBtn: document.getElementById('closeTankBtn'),
+  fishTank: document.getElementById('fishTank'), tankFishLayer: document.getElementById('tankFishLayer'), tankEmpty: document.getElementById('tankEmpty'), tankFishCount: document.getElementById('tankFishCount'),
+  dataModal: document.getElementById('dataModal'), closeDataBtn: document.getElementById('closeDataBtn'),
+  downloadBackupBtn: document.getElementById('downloadBackupBtn'), restoreFile: document.getElementById('restoreFile'),
+  ghTokenInput: document.getElementById('ghTokenInput'), publishBtn: document.getElementById('publishBtn'), publishStatus: document.getElementById('publishStatus'),
+  matchSets: document.getElementById('matchSets'), matchBoard: document.getElementById('matchBoard'), matchStatus: document.getElementById('matchStatus'),
+  puzzlePicker: document.getElementById('puzzlePicker'), puzzleBoard: document.getElementById('puzzleBoard'), puzzleOptions: document.getElementById('puzzleOptions'), puzzleStatus: document.getElementById('puzzleStatus'), newPuzzleBtn: document.getElementById('newPuzzleBtn'),
+  adminTabFlash: document.getElementById('adminTabFlash'), adminTabPuzzle: document.getElementById('adminTabPuzzle'),
+  adminFlashPanel: document.getElementById('adminFlashPanel'), adminPuzzlePanel: document.getElementById('adminPuzzlePanel'),
+  adminTopicSelect: document.getElementById('adminTopicSelect'), adminWordList: document.getElementById('adminWordList'),
+  adminPuzzleGrid: document.getElementById('adminPuzzleGrid'), newPuzzleName: document.getElementById('newPuzzleName'), newPuzzleFile: document.getElementById('newPuzzleFile')
+};
+
+const state = {
+  soundOn: true,
+  currentTopicIdx: null, lessonWords: [], lessonIndex: 0,
+  matchSetId: MATCH_SETS[0].id, matchRemaining: 0,
+  puzzleImage: null, puzzleMissing: 0, puzzleAnswering: false
+};
+
+/* ---------- Modals / screens ---------- */
+function openModal(modal) { sfx.tap(); modal.classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeModal(modal) { sfx.tap(); modal.classList.remove('open'); if (!document.querySelector('.modal-backdrop.open')) document.body.style.overflow = ''; }
+function showScreen(name) {
+  Object.entries(screens).forEach(([key, node]) => node.classList.toggle('active', key === name));
+  els.homeBtn.style.display = name === 'home' ? 'none' : 'inline-block';
+  els.fishBucket.classList.toggle('show', name === 'classroom' || name === 'match' || name === 'puzzle');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ---------- Fish reward + bucket + tank ---------- */
+function updateProgressUI() {
+  const fishCount = progress.accumulatedFish.length;
+  els.totalFishTop.textContent = fishCount; els.homeFishCount.textContent = fishCount;
+  els.completedCount.textContent = progress.exploredTopics.length; els.tankFishCount.textContent = fishCount;
+}
+function resetBucket() { els.fishWater.innerHTML = '<span class="bucket-empty">Catch a fish!</span>'; els.fishCount.textContent = '0'; }
+function landFishInBucket(fish, count) {
+  const empty = els.fishWater.querySelector('.bucket-empty'); if (empty) empty.remove();
+  const span = document.createElement('span'); span.textContent = fish; els.fishWater.appendChild(span);
+  const visibleFish = [...els.fishWater.children].filter(node => !node.classList.contains('bucket-empty'));
+  while (visibleFish.length > 20) visibleFish.shift().remove();
+  els.fishCount.textContent = count; els.fishBucket.classList.remove('bucket-bounce'); void els.fishBucket.offsetWidth; els.fishBucket.classList.add('bucket-bounce');
+  sfx.fish(); setTimeout(() => sfx.splash(), 90);
+}
+function flyFishToBucket(originEl, fish, count) {
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced || !originEl) { landFishInBucket(fish, count); return; }
+  const start = originEl.getBoundingClientRect(), target = els.fishWater.getBoundingClientRect();
+  const startX = start.left + start.width / 2, startY = start.top + start.height / 2;
+  const endX = target.left + target.width / 2, endY = target.top + target.height / 2;
+  const flyer = document.createElement('div'); flyer.className = 'flying-fish'; flyer.textContent = fish;
+  flyer.style.left = `${startX}px`; flyer.style.top = `${startY}px`; document.body.appendChild(flyer);
+  const dx = endX - startX, dy = endY - startY;
+  const animation = flyer.animate([
+    { transform: 'translate(-50%, -50%) scale(.55) rotate(-18deg)', opacity: .2, offset: 0 },
+    { transform: `translate(calc(-50% + ${dx * .43}px), calc(-50% + ${dy * .32 - 155}px)) scale(1.35) rotate(18deg)`, opacity: 1, offset: .52 },
+    { transform: `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) scale(.62) rotate(-22deg)`, opacity: 1, offset: 1 }
+  ], { duration: 900, easing: 'cubic-bezier(.18,.75,.22,1)', fill: 'forwards' });
+  animation.finished.then(() => { flyer.remove(); landFishInBucket(fish, count); }).catch(() => { flyer.remove(); landFishInBucket(fish, count); });
+}
+function awardFish(originEl) {
+  const fish = randomItem(FISH); progress.accumulatedFish.push(fish); saveProgress();
+  flyFishToBucket(originEl, fish, progress.accumulatedFish.length);
+  updateProgressUI(); renderFishTank();
+}
+function renderFishTank() {
+  els.tankFishLayer.innerHTML = '';
+  const visible = progress.accumulatedFish.slice(-60);
+  visible.forEach((fish, i) => {
+    const el = document.createElement('span');
+    el.className = `tank-fish${i % 3 === 1 ? ' reverse' : ''}`; el.textContent = fish;
+    el.style.setProperty('--top', `${8 + ((i * 17 + i * i * 3) % 73)}%`);
+    el.style.setProperty('--size', `${30 + ((i * 7) % 20)}px`);
+    el.style.setProperty('--duration', `${8 + ((i * 11) % 9)}s`);
+    el.style.setProperty('--delay', `${-((i * 1.37) % 14)}s`);
+    els.tankFishLayer.appendChild(el);
+  });
+  els.tankEmpty.classList.toggle('hidden', visible.length > 0);
+}
+
+/* ---------- Home / topics ---------- */
+function renderTopics(filter = '') {
+  const q = filter.trim().toLowerCase();
+  const matches = TOPICS.map((topic, index) => ({ topic, index })).filter(({topic}) => topic.name.toLowerCase().includes(q));
+  els.topicGrid.innerHTML = '';
+  matches.forEach(({topic, index}, visibleIndex) => {
+    const explored = progress.exploredTopics.includes(topic.name);
+    const btn = document.createElement('button');
+    btn.className = `topic-card${explored ? ' completed' : ''}`; btn.type = 'button';
+    btn.style.setProperty('--card-tint', TINTS[visibleIndex % TINTS.length]);
+    btn.innerHTML = `<span class="topic-emoji" aria-hidden="true">${topic.emoji}</span><span class="topic-name">${topic.name}</span><span class="topic-count">${topic.words.length} words</span>`;
+    btn.addEventListener('click', () => { sfx.tap(); startClassroom(index); });
+    els.topicGrid.appendChild(btn);
+  });
+  if (!matches.length) els.topicGrid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:#68738d;font-weight:900;padding:30px">No topic found. Try another word! 🌈</p>';
+}
+
+/* ---------- Classroom (flashcards, no timer) ---------- */
+function startClassroom(topicIndex) {
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  state.currentTopicIdx = topicIndex;
+  state.lessonWords = TOPICS[topicIndex].words.map((w, i) => ({ en: w[0], emoji: w[1], wordIdx: i }));
+  state.lessonIndex = 0;
+  els.lessonCardView.classList.remove('hidden'); els.lessonEndView.classList.add('hidden');
+  els.lessonTopic.textContent = `${TOPICS[topicIndex].emoji} ${TOPICS[topicIndex].name}`;
+  els.endTopicName.textContent = TOPICS[topicIndex].name;
+  showScreen('classroom'); showLessonCard();
+}
+function showLessonCard() {
+  const word = state.lessonWords[state.lessonIndex]; if (!word) return finishLesson();
+  els.lessonCounter.textContent = `${state.lessonIndex + 1} / ${state.lessonWords.length}`;
+  els.flashEnglish.textContent = word.en;
+  const custom = getCustomImage(state.currentTopicIdx, word.wordIdx);
+  els.flashMedia.innerHTML = custom ? `<img src="${custom}" alt="${word.en}">` : `<div class="flash-emoji-fallback">${word.emoji}</div>`;
+  els.backCardBtn.disabled = state.lessonIndex === 0;
+  els.nextCardBtn.textContent = state.lessonIndex === state.lessonWords.length - 1 ? 'Finish 🎉' : 'Next ➡️';
+  els.flashcard.classList.remove('pop'); void els.flashcard.offsetWidth; els.flashcard.classList.add('pop');
+  sfx.pop(); speak(word.en);
+}
+function finishLesson() {
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  els.lessonCardView.classList.add('hidden'); els.lessonEndView.classList.remove('hidden');
+  if (!progress.exploredTopics.includes(TOPICS[state.currentTopicIdx].name)) { progress.exploredTopics.push(TOPICS[state.currentTopicIdx].name); saveProgress(); }
+  sfx.finish(); burstConfetti(30); resetBucket();
+  awardFish(els.lessonHomeBtn);
+  updateProgressUI(); renderTopics(els.topicSearch.value);
+}
+els.backCardBtn.addEventListener('click', () => { if (state.lessonIndex > 0) { sfx.tap(); state.lessonIndex -= 1; showLessonCard(); } });
+els.nextCardBtn.addEventListener('click', () => {
+  sfx.tap();
+  if (state.lessonIndex >= state.lessonWords.length - 1) finishLesson();
+  else { state.lessonIndex += 1; showLessonCard(); }
+});
+els.listenBtn.addEventListener('click', () => speak(state.lessonWords[state.lessonIndex].en, true));
+els.replayLessonBtn.addEventListener('click', () => startClassroom(state.currentTopicIdx));
+els.lessonHomeBtn.addEventListener('click', () => { sfx.tap(); showScreen('home'); });
+
+/* ---------- Match game (drag & drop) ---------- */
+function renderMatchSets() {
+  els.matchSets.innerHTML = '';
+  MATCH_SETS.forEach(set => {
+    const chip = document.createElement('button'); chip.type = 'button'; chip.className = `set-chip${set.id === state.matchSetId ? ' active' : ''}`;
+    chip.textContent = set.name;
+    chip.addEventListener('click', () => { sfx.tap(); state.matchSetId = set.id; startMatchRound(); });
+    els.matchSets.appendChild(chip);
+  });
+}
+
+/* Generic pointer-based drag engine: works for mouse and touch alike.
+   onDropCallback(target, tileEl, pairId) is called with the '.drop-target' element under the
+   pointer at release (or null handling is done by caller if target is falsy). */
+function enableDrag(tileEl, pairId, onDropCallback) {
+  tileEl.addEventListener('pointerdown', e => {
+    if (tileEl.classList.contains('placed')) return;
+    e.preventDefault();
+    const rect = tileEl.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height, 64);
+    const ghost = document.createElement('div');
+    ghost.className = 'drag-ghost';
+    ghost.style.width = `${size}px`; ghost.style.height = `${size}px`;
+    ghost.innerHTML = tileEl.innerHTML;
+    document.body.appendChild(ghost);
+    const moveGhost = (x, y) => { ghost.style.left = `${x}px`; ghost.style.top = `${y}px`; };
+    moveGhost(e.clientX, e.clientY);
+    tileEl.classList.add('dragging-source');
+    let currentTarget = null;
+    function setHover(target) {
+      if (target === currentTarget) return;
+      if (currentTarget) currentTarget.classList.remove('hoverActive');
+      currentTarget = target;
+      if (currentTarget) currentTarget.classList.add('hoverActive');
+    }
+    function onMove(ev) {
+      moveGhost(ev.clientX, ev.clientY);
+      const el = document.elementFromPoint(ev.clientX, ev.clientY);
+      const target = el && el.closest('.drop-target');
+      setHover(target && !target.classList.contains('filled') ? target : null);
+    }
+    function onUp(ev) {
+      document.removeEventListener('pointermove', onMove);
+      document.removeEventListener('pointerup', onUp);
+      const el = document.elementFromPoint(ev.clientX, ev.clientY);
+      const target = el && el.closest('.drop-target');
+      setHover(null);
+      ghost.remove(); tileEl.classList.remove('dragging-source');
+      if (target) onDropCallback(target, tileEl, pairId);
+    }
+    document.addEventListener('pointermove', onMove);
+    document.addEventListener('pointerup', onUp, { once: true });
+  });
+}
+
+function startMatchRound() {
+  renderMatchSets();
+  const set = MATCH_SETS.find(s => s.id === state.matchSetId);
+  els.matchBoard.innerHTML = '';
+  if (set.mode === 'scene') { els.matchBoard.className = 'match-board mode-scene'; state.matchRemaining = set.items.length; buildSceneBoard(set); }
+  else { els.matchBoard.className = 'match-board mode-slot'; state.matchRemaining = set.pairs.length; buildSlotBoard(set); }
+  els.matchStatus.textContent = set.mode === 'scene' ? 'Drag each picture to its matching place!' : 'Drag each picture into its matching square!';
+  els.matchStatus.className = 'match-status';
+}
+
+function buildSlotBoard(set) {
+  const tileCol = document.createElement('div'); tileCol.className = 'tile-col';
+  const slotCol = document.createElement('div'); slotCol.className = 'slot-col';
+  shuffle(set.pairs).forEach(pair => {
+    const tile = document.createElement('div'); tile.className = 'drag-tile';
+    if (pair.color) { tile.style.background = `${pair.color}26`; tile.innerHTML = `<span>${pair.tileEmoji}</span>`; }
+    else { tile.innerHTML = `<span>${pair.tileEmoji}</span>`; }
+    tileCol.appendChild(tile);
+    enableDrag(tile, pair.id, handleSlotDrop);
+  });
+  shuffle(set.pairs).forEach(pair => {
+    const slot = document.createElement('div'); slot.className = 'drop-target'; slot.dataset.pairId = pair.id;
+    slot.innerHTML = pair.color
+      ? `<div class="peek" style="width:68%;height:68%;border-radius:12px;background:${pair.color}"></div>`
+      : `<span class="peek">${pair.targetEmoji}</span>`;
+    slotCol.appendChild(slot);
+  });
+  els.matchBoard.append(tileCol, slotCol);
+}
+function handleSlotDrop(target, tile, pairId) {
+  if (target.classList.contains('filled')) return;
+  if (target.dataset.pairId === pairId) {
+    target.classList.add('filled'); tile.classList.add('placed'); sfx.correct();
+    state.matchRemaining -= 1;
+    els.matchStatus.textContent = 'Great match!'; els.matchStatus.className = 'match-status good';
+    if (state.matchRemaining <= 0) completeMatchRound();
+  } else {
+    target.classList.add('wrongFlash'); tile.classList.add('shake'); sfx.wrong();
+    els.matchStatus.textContent = 'Not quite — try again!'; els.matchStatus.className = 'match-status';
+    setTimeout(() => { target.classList.remove('wrongFlash'); tile.classList.remove('shake'); }, 420);
+  }
+}
+
+function sceneDecorHTML(id) {
+  if (id === 'ocean') return `<div class="scene-bubbles" aria-hidden="true"><i></i><i></i><i></i></div><div class="scene-ground" aria-hidden="true"></div>`;
+  if (id === 'road') return `<span class="scene-decor" style="left:6%;bottom:9%;font-size:20px">🌳</span><span class="scene-decor" style="right:6%;bottom:16%;font-size:16px">🌳</span>`;
+  if (id === 'sky') return `<span class="scene-decor" style="right:13%;top:11%;font-size:24px">☀️</span><span class="scene-decor float-cloud" style="left:10%;top:32%">☁️</span><span class="scene-decor float-cloud" style="left:54%;top:58%;font-size:16px;animation-delay:-2s">☁️</span>`;
+  if (id === 'track') return `<div class="scene-ground" aria-hidden="true"></div>`;
+  return '';
+}
+function buildSceneBoard(set) {
+  const sceneRow = document.createElement('div'); sceneRow.className = 'scene-row';
+  set.scenes.forEach(scene => {
+    const box = document.createElement('div'); box.className = `scene-item theme-${scene.id}`;
+    box.innerHTML = `${sceneDecorHTML(scene.id)}<span class="scene-hint" aria-hidden="true">${scene.emoji}</span><div class="scene-drop drop-target" data-pair-id="${scene.id}"></div>`;
+    sceneRow.appendChild(box);
+  });
+  const tray = document.createElement('div'); tray.className = 'scene-tray';
+  shuffle(set.items).forEach(item => {
+    const tile = document.createElement('div'); tile.className = 'drag-tile'; tile.innerHTML = `<span>${item.emoji}</span>`;
+    tray.appendChild(tile);
+    enableDrag(tile, item.id, handleSceneDrop);
+  });
+  els.matchBoard.append(sceneRow, tray);
+}
+function handleSceneDrop(target, tile, pairId) {
+  if (!target.classList.contains('scene-drop') || target.classList.contains('filled')) return;
+  if (target.dataset.pairId === pairId) {
+    target.classList.add('filled'); target.innerHTML = tile.querySelector('span').outerHTML;
+    tile.classList.add('placed'); sfx.correct(); state.matchRemaining -= 1;
+    els.matchStatus.textContent = 'Perfect spot!'; els.matchStatus.className = 'match-status good';
+    if (state.matchRemaining <= 0) completeMatchRound();
+  } else {
+    target.classList.add('wrongFlash'); tile.classList.add('shake'); sfx.wrong();
+    els.matchStatus.textContent = "That's not the right place — try again!"; els.matchStatus.className = 'match-status';
+    setTimeout(() => { target.classList.remove('wrongFlash'); tile.classList.remove('shake'); }, 420);
+  }
+}
+
+function completeMatchRound() {
+  els.matchStatus.textContent = 'Amazing! You matched them all! 🎉'; els.matchStatus.className = 'match-status good';
+  burstConfetti(28); resetBucket(); awardFish(els.matchStatus);
+  setTimeout(() => { if (screens.match.classList.contains('active')) startMatchRound(); }, 1700);
+}
+
+/* ---------- Puzzle game ---------- */
+function renderPuzzlePicker() {
+  const puzzles = allPuzzles();
+  els.puzzlePicker.innerHTML = '';
+  puzzles.forEach(p => {
+    const chip = document.createElement('button'); chip.type = 'button'; chip.className = `set-chip${state.puzzleImage && state.puzzleImage.id === p.id ? ' active' : ''}`;
+    chip.textContent = p.name;
+    chip.addEventListener('click', () => { sfx.tap(); startPuzzle(p); });
+    els.puzzlePicker.appendChild(chip);
+  });
+}
+function startPuzzle(puzzleObj) {
+  const puzzles = allPuzzles();
+  state.puzzleImage = puzzleObj || randomItem(puzzles);
+  state.puzzleMissing = Math.floor(Math.random() * 9);
+  state.puzzleAnswering = false;
+  renderPuzzlePicker();
+  els.puzzleStatus.textContent = 'Tap the piece that completes the picture!'; els.puzzleStatus.className = 'puzzle-status';
+  const img = state.puzzleImage.image;
+  els.puzzleBoard.innerHTML = '';
+  for (let cell = 0; cell < 9; cell++) {
+    const row = Math.floor(cell / 3), col = cell % 3;
+    const div = document.createElement('div'); div.className = 'puzzle-cell';
+    if (cell === state.puzzleMissing) {
+      div.classList.add('missing'); div.textContent = '❓';
+    } else {
+      div.style.backgroundImage = `url(${img})`; div.style.backgroundSize = '300% 300%';
+      div.style.backgroundPosition = `${col * 50}% ${row * 50}%`;
+    }
+    els.puzzleBoard.appendChild(div);
+  }
+  const missRow = Math.floor(state.puzzleMissing / 3), missCol = state.puzzleMissing % 3;
+  const others = [...Array(9).keys()].filter(c => c !== state.puzzleMissing);
+  const distractors = shuffle(others).slice(0, 2);
+  const options = shuffle([state.puzzleMissing, ...distractors]);
+  els.puzzleOptions.innerHTML = '';
+  options.forEach(cell => {
+    const row = Math.floor(cell / 3), col = cell % 3;
+    const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'puzzle-option';
+    btn.style.backgroundImage = `url(${img})`; btn.style.backgroundSize = '300% 300%';
+    btn.style.backgroundPosition = `${col * 50}% ${row * 50}%`;
+    btn.addEventListener('click', () => onPuzzleOptionClick(btn, cell, missRow, missCol));
+    els.puzzleOptions.appendChild(btn);
+  });
+}
+function onPuzzleOptionClick(btn, cell, missRow, missCol) {
+  if (state.puzzleAnswering) return;
+  if (cell === state.puzzleMissing) {
+    state.puzzleAnswering = true; sfx.correct(); btn.classList.add('correctPick');
+    const missingCellEl = els.puzzleBoard.children[state.puzzleMissing];
+    missingCellEl.classList.remove('missing'); missingCellEl.textContent = '';
+    missingCellEl.style.backgroundImage = `url(${state.puzzleImage.image})`; missingCellEl.style.backgroundSize = '300% 300%';
+    missingCellEl.style.backgroundPosition = `${missCol * 50}% ${missRow * 50}%`;
+    missingCellEl.classList.add('reveal');
+    els.puzzleStatus.textContent = 'Perfect! You completed the picture! 🎉'; els.puzzleStatus.className = 'puzzle-status good';
+    burstConfetti(24); resetBucket(); awardFish(btn);
+    setTimeout(() => { if (screens.puzzle.classList.contains('active')) startPuzzle(null); }, 1700);
+  } else {
+    btn.classList.add('wrong'); sfx.wrong();
+    els.puzzleStatus.textContent = 'Not this one — try another piece!'; els.puzzleStatus.className = 'puzzle-status';
+    setTimeout(() => btn.classList.remove('wrong'), 420);
+  }
+}
+els.newPuzzleBtn.addEventListener('click', () => { sfx.tap(); startPuzzle(null); });
+
+/* ---------- Admin: flashcard pictures ---------- */
+function renderAdminTopicSelect() {
+  els.adminTopicSelect.innerHTML = TOPICS.map((t, i) => `<option value="${i}">${t.emoji} ${t.name}</option>`).join('');
+}
+function renderAdminWordList() {
+  const topicIdx = Number(els.adminTopicSelect.value) || 0;
+  const topic = TOPICS[topicIdx];
+  els.adminWordList.innerHTML = '';
+  topic.words.forEach((w, wordIdx) => {
+    const [en, emoji] = w;
+    const custom = getCustomImage(topicIdx, wordIdx);
+    const row = document.createElement('div'); row.className = 'word-row';
+    row.innerHTML = `
+      <div class="word-thumb">${custom ? `<img src="${custom}" alt="${en}">` : emoji}</div>
+      <div class="word-label">${en}</div>
+      <label class="small-btn file-btn" style="text-align:center">📤 Upload<input type="file" accept="image/*" class="admin-upload-input"></label>
+      <button class="danger-btn remove-image-btn" type="button" ${custom ? '' : 'disabled style="opacity:.35;cursor:not-allowed"'}>🗑️ Remove</button>
+    `;
+    row.querySelector('.admin-upload-input').addEventListener('change', e => {
+      const file = e.target.files[0]; if (!file) return;
+      resizeImageFile(file, 640, false, async dataUrl => {
+        const wordSlug = slugify((TOPICS[topicIdx].words[wordIdx] || [])[0] || `${topicIdx}-${wordIdx}`);
+        const filename = `word-${wordSlug}-${Date.now()}.jpg`;
+        try {
+          const url = await uploadResourceToGitHub(dataUrl, filename);
+          setCustomImage(topicIdx, wordIdx, url || dataUrl);
+        } catch (err) {
+          alert('Could not upload to GitHub (' + err.message + '). Saved on this device instead.');
+          setCustomImage(topicIdx, wordIdx, dataUrl);
+        }
+        renderAdminWordList(); sfx.tap();
+      });
+    });
+    row.querySelector('.remove-image-btn').addEventListener('click', () => { removeCustomImage(topicIdx, wordIdx); renderAdminWordList(); sfx.tap(); });
+    els.adminWordList.appendChild(row);
+  });
+}
+els.adminTopicSelect.addEventListener('change', renderAdminWordList);
+
+/* ---------- Admin: puzzle pictures ---------- */
+function renderAdminPuzzleGrid() {
+  const puzzles = allPuzzles();
+  els.adminPuzzleGrid.innerHTML = '';
+  puzzles.forEach(p => {
+    const card = document.createElement('div'); card.className = 'puzzle-admin-card';
+    card.innerHTML = `${p.builtin ? '<span class="badge">Built-in</span>' : ''}<div class="thumb" style="background-image:url(${p.image})"></div><strong>${p.name}</strong>`;
+    if (!p.builtin) {
+      const del = document.createElement('button'); del.className = 'danger-btn'; del.type = 'button'; del.textContent = '🗑️ Delete';
+      del.addEventListener('click', () => { customPuzzles = customPuzzles.filter(x => x.id !== p.id); savePuzzles(); renderAdminPuzzleGrid(); sfx.tap(); });
+      card.appendChild(del);
+    }
+    els.adminPuzzleGrid.appendChild(card);
+  });
+}
+els.newPuzzleFile.addEventListener('change', e => {
+  const file = e.target.files[0]; if (!file) return;
+  const name = els.newPuzzleName.value.trim() || 'My Picture';
+  resizeImageFile(file, 500, true, async dataUrl => {
+    const filename = `puzzle-${slugify(name)}-${Date.now()}.jpg`;
+    let image = dataUrl;
+    try { image = (await uploadResourceToGitHub(dataUrl, filename)) || dataUrl; }
+    catch (err) { alert('Could not upload to GitHub (' + err.message + '). Saved on this device instead.'); }
+    customPuzzles.push({ id: `custom_${Date.now()}`, name, image });
+    savePuzzles(); els.newPuzzleName.value = ''; e.target.value = ''; renderAdminPuzzleGrid(); sfx.tap();
+  });
+});
+els.adminTabFlash.addEventListener('click', () => {
+  els.adminTabFlash.classList.add('active'); els.adminTabPuzzle.classList.remove('active');
+  els.adminFlashPanel.classList.remove('hidden'); els.adminPuzzlePanel.classList.add('hidden'); sfx.tap();
+});
+els.adminTabPuzzle.addEventListener('click', () => {
+  els.adminTabPuzzle.classList.add('active'); els.adminTabFlash.classList.remove('active');
+  els.adminPuzzlePanel.classList.remove('hidden'); els.adminFlashPanel.classList.add('hidden');
+  renderAdminPuzzleGrid(); sfx.tap();
+});
+
+/* ---------- Backup & restore ---------- */
+els.downloadBackupBtn.addEventListener('click', () => {
+  sfx.tap();
+  const backup = { version: 1, progress, customImages, customPuzzles, exportedAt: new Date().toISOString() };
+  const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob); const a = document.createElement('a');
+  a.href = url; a.download = `word-fish-baby-backup-${Date.now()}.json`; a.click(); URL.revokeObjectURL(url);
+});
+els.restoreFile.addEventListener('change', e => {
+  const file = e.target.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = evt => {
+    try {
+      const data = JSON.parse(evt.target.result);
+      if (data.progress) { progress = data.progress; saveProgress(); }
+      if (data.customImages) { customImages = data.customImages; saveImages(); }
+      if (data.customPuzzles) { customPuzzles = data.customPuzzles; savePuzzles(); }
+      updateProgressUI(); renderFishTank(); renderTopics(els.topicSearch.value); sfx.finish();
+      alert('Backup restored! 🎉');
+    } catch { alert('Sorry, that file could not be read.'); }
+    e.target.value = '';
+  };
+  reader.readAsText(file);
+});
+
+/* ---------- Upload images/audio to GitHub res/ folder ---------- */
+function getGhToken() { return (els.ghTokenInput && els.ghTokenInput.value.trim()) || loadJSON(STORAGE_GH_TOKEN, ''); }
+function slugify(s) { return String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '').slice(0, 40) || 'file'; }
+async function uploadResourceToGitHub(dataUrl, filename) {
+  const token = getGhToken();
+  if (!token) { const err = new Error('Add a GitHub token in ☁️ Backup & Restore first.'); err.code = 'no-token'; throw err; }
+  const base64 = dataUrl.slice(dataUrl.indexOf(',') + 1); // data URLs are already base64 after the comma
+  const path = `res/${filename}`;
+  const apiUrl = `https://api.github.com/repos/${GH_REPO}/contents/${path}`;
+  const headers = { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github+json' };
+  const res = await fetch(apiUrl, {
+    method: 'PUT',
+    headers: { ...headers, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message: `Add ${path}`, content: base64 })
+  });
+  if (!res.ok) {
+    const errJson = await res.json().catch(() => ({}));
+    throw new Error(errJson.message || `Upload failed (${res.status})`);
+  }
+  const json = await res.json();
+  return json.content && json.content.download_url;
+}
+
+/* ---------- Publish to GitHub ---------- */
+function b64EncodeUnicode(str) {
+  const bytes = new TextEncoder().encode(str);
+  let binary = '';
+  bytes.forEach(b => { binary += String.fromCharCode(b); });
+  return btoa(binary);
+}
+async function publishToGitHub() {
+  const token = els.ghTokenInput.value.trim() || loadJSON(STORAGE_GH_TOKEN, '');
+  if (!token) { els.publishStatus.textContent = '⚠️ Please paste a GitHub token first.'; els.publishStatus.style.color = '#c0392b'; return; }
+  storageSet(STORAGE_GH_TOKEN, JSON.stringify(token));
+
+  els.publishBtn.disabled = true;
+  els.publishStatus.style.color = 'var(--muted)';
+  els.publishStatus.textContent = '⏳ Publishing…';
+
+  const apiUrl = `https://api.github.com/repos/${GH_REPO}/contents/${GH_DATA_PATH}`;
+  const headers = { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github+json' };
+
+  try {
+    // Look up the current file's sha (needed to update an existing file); ok if it doesn't exist yet.
+    let sha;
+    const existing = await fetch(apiUrl, { headers });
+    if (existing.status === 200) {
+      const existingJson = await existing.json();
+      sha = existingJson.sha;
+    } else if (existing.status !== 404) {
+      const errJson = await existing.json().catch(() => ({}));
+      throw new Error(errJson.message || `Lookup failed (${existing.status})`);
+    }
+
+    const payload = { version: 1, progress, customImages, customPuzzles, publishedAt: new Date().toISOString() };
+    const body = {
+      message: `Publish data.json — ${new Date().toISOString()}`,
+      content: b64EncodeUnicode(JSON.stringify(payload, null, 2)),
+      ...(sha ? { sha } : {})
+    };
+
+    const putRes = await fetch(apiUrl, { method: 'PUT', headers: { ...headers, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    if (!putRes.ok) {
+      const errJson = await putRes.json().catch(() => ({}));
+      throw new Error(errJson.message || `Publish failed (${putRes.status})`);
+    }
+
+    els.publishStatus.style.color = 'var(--mint-dark)';
+    els.publishStatus.textContent = '✅ Published to ' + GH_REPO + '/' + GH_DATA_PATH;
+    sfx.finish();
+  } catch (err) {
+    els.publishStatus.style.color = '#c0392b';
+    els.publishStatus.textContent = '❌ ' + (err.message || 'Something went wrong.');
+  } finally {
+    els.publishBtn.disabled = false;
+  }
+}
+els.publishBtn.addEventListener('click', () => { sfx.tap(); publishToGitHub(); });
+
+/* ---------- Global events ---------- */
+els.topicSearch.addEventListener('input', e => renderTopics(e.target.value));
+els.surpriseBtn.addEventListener('click', () => { sfx.tap(); startClassroom(Math.floor(Math.random() * TOPICS.length)); });
+els.browseBtn.addEventListener('click', () => { sfx.tap(); document.getElementById('topicSection').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+els.matchModeBtn.addEventListener('click', () => { sfx.tap(); showScreen('match'); startMatchRound(); });
+els.puzzleModeBtn.addEventListener('click', () => { sfx.tap(); showScreen('puzzle'); startPuzzle(null); });
+els.homeBtn.addEventListener('click', () => { sfx.tap(); if ('speechSynthesis' in window) speechSynthesis.cancel(); showScreen('home'); });
+els.soundBtn.addEventListener('click', () => {
+  state.soundOn = !state.soundOn; els.soundBtn.textContent = state.soundOn ? '🔊' : '🔇';
+  els.soundBtn.title = state.soundOn ? 'Sound on' : 'Sound off';
+  if (!state.soundOn && 'speechSynthesis' in window) speechSynthesis.cancel(); if (state.soundOn) sfx.tap();
+});
+[els.tankBtn, els.homeTankBtn].forEach(btn => btn.addEventListener('click', () => { renderFishTank(); openModal(els.tankModal); }));
+els.closeTankBtn.addEventListener('click', () => closeModal(els.tankModal));
+els.tankModal.addEventListener('click', e => { if (e.target === els.tankModal) closeModal(els.tankModal); });
+els.dataBtn.addEventListener('click', () => {
+  const savedToken = loadJSON(STORAGE_GH_TOKEN, '');
+  if (savedToken) els.ghTokenInput.value = savedToken;
+  els.publishStatus.textContent = '';
+  openModal(els.dataModal);
+});
+els.closeDataBtn.addEventListener('click', () => closeModal(els.dataModal));
+els.dataModal.addEventListener('click', e => { if (e.target === els.dataModal) closeModal(els.dataModal); });
+els.adminBtn.addEventListener('click', () => { sfx.tap(); renderAdminTopicSelect(); renderAdminWordList(); showScreen('admin'); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { if (els.tankModal.classList.contains('open')) closeModal(els.tankModal); if (els.dataModal.classList.contains('open')) closeModal(els.dataModal); } });
+
+/* ---------- Init ---------- */
+function init() {
+  if (!Array.isArray(progress.accumulatedFish)) progress.accumulatedFish = [];
+  if (!Array.isArray(progress.exploredTopics)) progress.exploredTopics = [];
+  renderTopics(); updateProgressUI(); renderFishTank(); renderAdminTopicSelect();
+}
+init();
+</script>
+</body>
+</html>
