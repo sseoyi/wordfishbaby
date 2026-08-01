@@ -6,5 +6,108 @@
   },
   "customImages": {},
   "customPuzzles": [],
-  "publishedAt": "2026-08-01T11:51:34.821Z"
+  "customWordText": {},
+  "knowledgeBank": [
+    {
+      "id": "kq_rabbit",
+      "promptLabel": "Rabbit",
+      "promptEmoji": "🐰",
+      "aLabel": "Carrot",
+      "aEmoji": "🥕",
+      "bLabel": "Fish",
+      "bEmoji": "🐟",
+      "correct": "a"
+    },
+    {
+      "id": "kq_cat",
+      "promptLabel": "Cat",
+      "promptEmoji": "🐱",
+      "aLabel": "Milk",
+      "aEmoji": "🥛",
+      "bLabel": "Grass",
+      "bEmoji": "🌿",
+      "correct": "a"
+    },
+    {
+      "id": "kq_cow",
+      "promptLabel": "Cow",
+      "promptEmoji": "🐮",
+      "aLabel": "Grass",
+      "aEmoji": "🌿",
+      "bLabel": "Meat",
+      "bEmoji": "🍖",
+      "correct": "a"
+    },
+    {
+      "id": "kq_bee",
+      "promptLabel": "Bee",
+      "promptEmoji": "🐝",
+      "aLabel": "Flower",
+      "aEmoji": "🌸",
+      "bLabel": "Rock",
+      "bEmoji": "🪨",
+      "correct": "a"
+    },
+    {
+      "id": "kq_duck",
+      "promptLabel": "Duck",
+      "promptEmoji": "🦆",
+      "aLabel": "Pond",
+      "aEmoji": "🏞️",
+      "bLabel": "Desert",
+      "bEmoji": "🏜️",
+      "correct": "a"
+    },
+    {
+      "id": "kq_car",
+      "promptLabel": "Car",
+      "promptEmoji": "🚗",
+      "aLabel": "Road",
+      "aEmoji": "🛣️",
+      "bLabel": "Ocean",
+      "bEmoji": "🌊",
+      "correct": "a"
+    },
+    {
+      "id": "kq_boat",
+      "promptLabel": "Boat",
+      "promptEmoji": "⛵",
+      "aLabel": "Water",
+      "aEmoji": "💧",
+      "bLabel": "Sky",
+      "bEmoji": "☁️",
+      "correct": "a"
+    },
+    {
+      "id": "kq_plane",
+      "promptLabel": "Airplane",
+      "promptEmoji": "✈️",
+      "aLabel": "Sky",
+      "aEmoji": "☁️",
+      "bLabel": "Ocean",
+      "bEmoji": "🌊",
+      "correct": "a"
+    },
+    {
+      "id": "kq_sun",
+      "promptLabel": "Sun",
+      "promptEmoji": "☀️",
+      "aLabel": "Day",
+      "aEmoji": "🌞",
+      "bLabel": "Night",
+      "bEmoji": "🌙",
+      "correct": "a"
+    },
+    {
+      "id": "kq_bird",
+      "promptLabel": "Bird",
+      "promptEmoji": "🐦",
+      "aLabel": "Nest",
+      "aEmoji": "🪹",
+      "bLabel": "Cave",
+      "bEmoji": "🕳️",
+      "correct": "a"
+    }
+  ],
+  "publishedAt": "2026-08-01T20:14:30.532Z"
 }
