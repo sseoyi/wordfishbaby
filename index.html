@@ -98,6 +98,7 @@
   .adventure-card:active { transform: translateY(3px); box-shadow: 0 2px 0 #edf2fa; }
   .adventure-card.match { background: linear-gradient(140deg, #eefaff 0%, #d9f4ff 54%, #fff 100%); }
   .adventure-card.puzzle { background: linear-gradient(140deg, #fff9ea 0%, #fff0c7 54%, #fff 100%); }
+  .adventure-card.knowledge { background: linear-gradient(140deg, #f5f0ff 0%, #e8dcff 54%, #fff 100%); }
   .adventure-title { display: block; margin: 0 0 7px; font-size: clamp(23px, 4vw, 32px); line-height: 1.15; letter-spacing: -.035em; font-weight: 1000; }
   .adventure-description { display: block; margin: 0; max-width: 520px; color: var(--muted); font-size: 16px; line-height: 1.45; font-weight: 800; }
   .adventure-icon { position: relative; z-index: 1; font-size: clamp(64px, 9vw, 100px); filter: drop-shadow(0 8px 8px rgba(38,50,75,.12)); animation: float 3.8s ease-in-out infinite; }
@@ -125,6 +126,20 @@
   .session-end h2 { margin: 16px 0 8px; font-size: clamp(32px, 6vw, 52px); letter-spacing: -.045em; }
   .session-end p { max-width: 560px; margin: 0 auto 24px; color: var(--muted); font-size: 19px; line-height: 1.5; font-weight: 800; }
   .end-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 13px; }
+  .quiz-stage { position: relative; display: grid; place-items: center; gap: 22px; min-height: 500px; padding: 34px 22px 30px; text-align: center; background: radial-gradient(circle at 20% 15%, #fff6c9 0 7%, transparent 7.4%), radial-gradient(circle at 80% 82%, #daf9ed 0 8%, transparent 8.4%), #fff; }
+  .quiz-prompt-icon { display: grid; place-items: center; width: min(220px, 60vw); aspect-ratio: 1; border-radius: 30px; background: linear-gradient(160deg,#f4f9ff,#eef6ff); font-size: clamp(70px, 16vw, 110px); overflow: hidden; box-shadow: var(--shadow-soft); }
+  .quiz-prompt-icon img { width: 100%; height: 100%; object-fit: cover; }
+  .quiz-prompt-icon.sound-icon { animation: soundPulse 1.1s ease-in-out infinite; color: var(--blue); }
+  @keyframes soundPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.07); } }
+  .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; width: min(520px, 100%); }
+  .quiz-option-btn { display: grid; place-items: center; min-height: 150px; border: 4px solid var(--line); border-radius: 26px; background: #fff; font-size: clamp(56px, 13vw, 88px); cursor: pointer; box-shadow: 0 8px 0 #edf2fa; transition: transform .14s ease, box-shadow .14s ease, border-color .14s ease; overflow: hidden; }
+  .quiz-option-btn img { width: 100%; height: 100%; object-fit: cover; }
+  .quiz-option-btn:hover { transform: translateY(-3px); border-color: #b8d2fa; }
+  .quiz-option-btn:active { transform: translateY(2px); }
+  .quiz-option-btn:disabled { cursor: not-allowed; }
+  .quiz-option-btn.correct { border-color: var(--mint-dark); background: #eafff6; box-shadow: 0 8px 0 #bdf2dd; }
+  .quiz-option-btn.wrong { border-color: #e0574a; background: #fff1ef; box-shadow: 0 8px 0 #ffd4cd; }
+  .quiz-score-line { margin: 0 auto 6px; font-weight: 900; color: var(--blue-dark); font-size: 18px; }
 
   .confetti { position: fixed; pointer-events: none; z-index: 100; width: 10px; height: 16px; border-radius: 3px; animation: confettiFall 1.4s linear forwards; }
   @keyframes confettiFall { to { transform: translate(var(--x), 110vh) rotate(720deg); opacity: 0; } }
@@ -264,6 +279,18 @@
   .word-thumb { width: 60px; height: 60px; border-radius: 14px; display: grid; place-items: center; background: #eef5ff; font-size: 30px; overflow: hidden; }
   .word-thumb img { width: 100%; height: 100%; object-fit: cover; }
   .word-label { font-weight: 950; font-size: 17px; }
+  .word-label-input { min-height: 42px; padding: 8px 12px; border: 2px solid var(--line); border-radius: 12px; font-weight: 900; font-size: 15px; color: var(--ink); width: 100%; }
+  .kh-admin-card { border: 2px solid var(--line); border-radius: 20px; padding: 16px; margin-bottom: 16px; background: #fbfdff; }
+  .kh-admin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; margin-top: 10px; }
+  .kh-admin-item { border: 2px solid var(--line); border-radius: 16px; padding: 12px; background: #fff; text-align: center; }
+  .kh-admin-item.is-correct { border-color: var(--mint-dark); background: #eafff6; }
+  .kh-admin-item h4 { margin: 0 0 8px; font-size: 13px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+  .kh-thumb { width: 74px; height: 74px; margin: 0 auto 10px; border-radius: 14px; display: grid; place-items: center; background: #eef5ff; font-size: 36px; overflow: hidden; }
+  .kh-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .kh-admin-item input[type=text] { width: 100%; min-height: 40px; padding: 6px 10px; border: 2px solid var(--line); border-radius: 10px; font-weight: 850; font-size: 14px; text-align: center; margin-bottom: 8px; }
+  .kh-admin-item .file-btn { display: block; margin-bottom: 6px; font-size: 13px; padding: 8px 10px; min-height: 40px; }
+  .kh-correct-label { display: flex; align-items: center; justify-content: center; gap: 6px; font-weight: 900; font-size: 13px; margin-top: 4px; cursor: pointer; }
+  .kh-admin-card-footer { display: flex; justify-content: flex-end; margin-top: 10px; }
   .file-btn { position: relative; overflow: hidden; }
   .file-btn input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
   .puzzle-admin-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 14px; }
@@ -354,6 +381,10 @@
             <span><span class="adventure-title">Picture Puzzle</span><span class="adventure-description">Find the missing puzzle piece and complete the picture!</span></span>
             <span class="adventure-icon" aria-hidden="true">🧩</span>
           </button>
+          <button class="adventure-card knowledge" id="knowledgeModeBtn" type="button">
+            <span><span class="adventure-title">Knowledge Hub</span><span class="adventure-description">Test what you know about animals, cars, and everything else!</span></span>
+            <span class="adventure-icon" aria-hidden="true">🧠</span>
+          </button>
         </div>
       </section>
 
@@ -388,11 +419,23 @@
               <button class="primary-btn" id="nextCardBtn" type="button">Next ➡️</button>
             </div>
           </div>
+          <div class="hidden" id="lessonQuizView">
+            <div class="mode-header"><strong>🎧 Quick Quiz</strong><span class="mode-badge" id="quizCounter">1 / 5</span></div>
+            <div class="quiz-stage">
+              <div class="quiz-prompt-icon sound-icon" id="quizPromptIcon">🔊</div>
+              <button class="small-btn" id="quizListenBtn" type="button">🔊 Listen again</button>
+              <div class="quiz-options" id="quizOptions">
+                <button class="quiz-option-btn" id="quizOptionA" type="button" aria-label="Option A"></button>
+                <button class="quiz-option-btn" id="quizOptionB" type="button" aria-label="Option B"></button>
+              </div>
+            </div>
+          </div>
           <div class="session-end hidden" id="lessonEndView">
             <div>
               <div class="end-icon">🌟</div>
               <h2>Great learning!</h2>
               <p>You finished the <strong id="endTopicName">topic</strong> flashcards and caught a new fish!</p>
+              <p class="quiz-score-line hidden" id="quizScoreLine"></p>
               <div class="end-actions">
                 <button class="primary-btn" id="replayLessonBtn" type="button">🔁 Play Again</button>
                 <button class="secondary-btn" id="lessonHomeBtn" type="button">🧭 Choose Another Topic</button>
@@ -429,6 +472,35 @@
       </div>
     </section>
 
+    <section class="screen" id="knowledgeScreen">
+      <div class="lesson-wrap">
+        <div class="lesson-panel">
+          <div id="khQuizView">
+            <div class="mode-header"><strong>🧠 Knowledge Hub</strong><span class="mode-badge" id="khCounter">1 / 8</span></div>
+            <div class="quiz-stage">
+              <div class="quiz-prompt-icon" id="khPromptIcon">🐰</div>
+              <button class="small-btn" id="khListenBtn" type="button">🔊 Listen again</button>
+              <div class="quiz-options" id="khOptions">
+                <button class="quiz-option-btn" id="khOptionA" type="button" aria-label="Option A"></button>
+                <button class="quiz-option-btn" id="khOptionB" type="button" aria-label="Option B"></button>
+              </div>
+            </div>
+          </div>
+          <div class="session-end hidden" id="khEndView">
+            <div>
+              <div class="end-icon">🧠</div>
+              <h2>Nice thinking!</h2>
+              <p class="quiz-score-line" id="khScoreLine"></p>
+              <div class="end-actions">
+                <button class="primary-btn" id="khReplayBtn" type="button">🔁 Play Again</button>
+                <button class="secondary-btn" id="khHomeBtn" type="button">🧭 Back Home</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="screen" id="adminScreen">
       <div class="admin-wrap">
         <div class="admin-panel">
@@ -436,6 +508,7 @@
           <div class="admin-tabs">
             <button class="admin-tab-btn active" id="adminTabFlash" type="button">🖼️ Flashcard Pictures</button>
             <button class="admin-tab-btn" id="adminTabPuzzle" type="button">🧩 Puzzle Pictures</button>
+            <button class="admin-tab-btn" id="adminTabKnowledge" type="button">🧠 Knowledge Hub</button>
           </div>
           <div class="admin-body">
             <div id="adminFlashPanel">
@@ -443,6 +516,7 @@
                 <label for="adminTopicSelect"><strong>Topic:</strong></label>
                 <select id="adminTopicSelect"></select>
               </div>
+              <p style="color:var(--muted);font-weight:800;margin:0 0 14px">Edit the word text or swap the picture — both are used in flashcards and the lesson quiz.</p>
               <div class="word-list" id="adminWordList"></div>
             </div>
             <div id="adminPuzzlePanel" class="hidden">
@@ -451,6 +525,13 @@
               <div class="add-puzzle-card">
                 <input type="text" id="newPuzzleName" placeholder="Picture name (e.g. My Cat)" />
                 <label class="small-btn file-btn" style="text-align:center">📤 Choose Image<input type="file" id="newPuzzleFile" accept="image/*" /></label>
+              </div>
+            </div>
+            <div id="adminKnowledgePanel" class="hidden">
+              <p style="color:var(--muted);font-weight:800;margin:0 0 14px">Edit the prompt and both answer choices for each Knowledge Hub question — text or picture. Mark which answer is correct.</p>
+              <div id="adminKnowledgeList"></div>
+              <div class="modal-actions">
+                <button class="secondary-btn" id="addKnowledgeBtn" type="button">➕ Add a Question</button>
               </div>
             </div>
           </div>
@@ -601,6 +682,20 @@ const DEFAULT_PUZZLES = [
   { id: "p_house", name: "House", emoji: "🏠", bg: "#ffe3f0" }
 ];
 
+/* Knowledge Hub: general-knowledge A/B icon quiz, unrelated to the English word lists */
+const KNOWLEDGE_DEFAULTS = [
+  { id: "kq_rabbit", promptLabel: "Rabbit", promptEmoji: "🐰", aLabel: "Carrot", aEmoji: "🥕", bLabel: "Fish", bEmoji: "🐟", correct: "a" },
+  { id: "kq_cat", promptLabel: "Cat", promptEmoji: "🐱", aLabel: "Milk", aEmoji: "🥛", bLabel: "Grass", bEmoji: "🌿", correct: "a" },
+  { id: "kq_cow", promptLabel: "Cow", promptEmoji: "🐮", aLabel: "Grass", aEmoji: "🌿", bLabel: "Meat", bEmoji: "🍖", correct: "a" },
+  { id: "kq_bee", promptLabel: "Bee", promptEmoji: "🐝", aLabel: "Flower", aEmoji: "🌸", bLabel: "Rock", bEmoji: "🪨", correct: "a" },
+  { id: "kq_duck", promptLabel: "Duck", promptEmoji: "🦆", aLabel: "Pond", aEmoji: "🏞️", bLabel: "Desert", bEmoji: "🏜️", correct: "a" },
+  { id: "kq_car", promptLabel: "Car", promptEmoji: "🚗", aLabel: "Road", aEmoji: "🛣️", bLabel: "Ocean", bEmoji: "🌊" , correct: "a" },
+  { id: "kq_boat", promptLabel: "Boat", promptEmoji: "⛵", aLabel: "Water", aEmoji: "💧", bLabel: "Sky", bEmoji: "☁️", correct: "a" },
+  { id: "kq_plane", promptLabel: "Airplane", promptEmoji: "✈️", aLabel: "Sky", aEmoji: "☁️", bLabel: "Ocean", bEmoji: "🌊", correct: "a" },
+  { id: "kq_sun", promptLabel: "Sun", promptEmoji: "☀️", aLabel: "Day", aEmoji: "🌞", bLabel: "Night", bEmoji: "🌙", correct: "a" },
+  { id: "kq_bird", promptLabel: "Bird", promptEmoji: "🐦", aLabel: "Nest", aEmoji: "🪹", bLabel: "Cave", bEmoji: "🕳️", correct: "a" }
+];
+
 const FISH = ['🐟','🐠','🐡','🦈','🐬','🐳','🦐','🦀'];
 const TINTS = ['#fff3c4','#e6f2ff','#e8fff6','#ffe9f0','#f0ebff','#ffefe5'];
 
@@ -608,6 +703,8 @@ const TINTS = ['#fff3c4','#e6f2ff','#e8fff6','#ffe9f0','#f0ebff','#ffefe5'];
 const STORAGE_PROGRESS = 'wordzoo.progress.v1';
 const STORAGE_IMAGES = 'wordzoo.images.v1';
 const STORAGE_PUZZLES = 'wordzoo.puzzles.v1';
+const STORAGE_WORDTEXT = 'wordfishbaby.wordtext.v1';
+const STORAGE_KNOWLEDGE = 'wordfishbaby.knowledge.v1';
 const STORAGE_GH_TOKEN = 'wordfishbaby.ghtoken.v1';
 const GH_REPO = 'sseoyi/wordfishbaby';
 const GH_DATA_PATH = 'data.json';
@@ -620,14 +717,26 @@ function loadJSON(key, fallback) { try { const v = JSON.parse(storageGet(key) ||
 let customImages = loadJSON(STORAGE_IMAGES, {});         // { "topicIdx_wordIdx": dataURL }
 let customPuzzles = loadJSON(STORAGE_PUZZLES, []);        // [{id,name,image}]
 let progress = loadJSON(STORAGE_PROGRESS, { accumulatedFish: [], exploredTopics: [] });
+let customWordText = loadJSON(STORAGE_WORDTEXT, {});      // { "topicIdx_wordIdx": "new word" }
+let knowledgeBank = loadJSON(STORAGE_KNOWLEDGE, null) || KNOWLEDGE_DEFAULTS.map(q => ({ ...q }));
 
 function saveImages() { storageSet(STORAGE_IMAGES, JSON.stringify(customImages)); }
 function savePuzzles() { storageSet(STORAGE_PUZZLES, JSON.stringify(customPuzzles)); }
 function saveProgress() { storageSet(STORAGE_PROGRESS, JSON.stringify(progress)); }
+function saveWordText() { storageSet(STORAGE_WORDTEXT, JSON.stringify(customWordText)); }
+function saveKnowledgeBank() { storageSet(STORAGE_KNOWLEDGE, JSON.stringify(knowledgeBank)); }
 
 function getCustomImage(topicIdx, wordIdx) { return customImages[`${topicIdx}_${wordIdx}`] || null; }
 function setCustomImage(topicIdx, wordIdx, dataUrl) { customImages[`${topicIdx}_${wordIdx}`] = dataUrl; saveImages(); }
 function removeCustomImage(topicIdx, wordIdx) { delete customImages[`${topicIdx}_${wordIdx}`]; saveImages(); }
+
+function getWordText(topicIdx, wordIdx) { return customWordText[`${topicIdx}_${wordIdx}`] || TOPICS[topicIdx].words[wordIdx][0]; }
+function setWordText(topicIdx, wordIdx, text) {
+  const key = `${topicIdx}_${wordIdx}`;
+  if (!text || text === TOPICS[topicIdx].words[wordIdx][0]) delete customWordText[key];
+  else customWordText[key] = text;
+  saveWordText();
+}
 
 function allPuzzles() {
   const defaults = DEFAULT_PUZZLES.map(p => ({ id: p.id, name: p.name, image: generateEmojiImage(p.emoji, p.bg), builtin: true }));
@@ -725,6 +834,7 @@ function resizeImageFile(file, maxDim, square, callback) {
 const screens = {
   home: document.getElementById('homeScreen'), classroom: document.getElementById('classroomScreen'),
   match: document.getElementById('matchScreen'), puzzle: document.getElementById('puzzleScreen'),
+  knowledge: document.getElementById('knowledgeScreen'),
   admin: document.getElementById('adminScreen')
 };
 const els = {
@@ -742,6 +852,15 @@ const els = {
   flashEnglish: document.getElementById('flashEnglish'),
   backCardBtn: document.getElementById('backCardBtn'), listenBtn: document.getElementById('listenBtn'), nextCardBtn: document.getElementById('nextCardBtn'),
   endTopicName: document.getElementById('endTopicName'), replayLessonBtn: document.getElementById('replayLessonBtn'), lessonHomeBtn: document.getElementById('lessonHomeBtn'),
+  lessonQuizView: document.getElementById('lessonQuizView'), quizCounter: document.getElementById('quizCounter'),
+  quizPromptIcon: document.getElementById('quizPromptIcon'), quizListenBtn: document.getElementById('quizListenBtn'),
+  quizOptionA: document.getElementById('quizOptionA'), quizOptionB: document.getElementById('quizOptionB'), quizScoreLine: document.getElementById('quizScoreLine'),
+  knowledgeModeBtn: document.getElementById('knowledgeModeBtn'),
+  khQuizView: document.getElementById('khQuizView'), khCounter: document.getElementById('khCounter'),
+  khPromptIcon: document.getElementById('khPromptIcon'), khListenBtn: document.getElementById('khListenBtn'),
+  khOptionA: document.getElementById('khOptionA'), khOptionB: document.getElementById('khOptionB'),
+  khEndView: document.getElementById('khEndView'), khScoreLine: document.getElementById('khScoreLine'),
+  khReplayBtn: document.getElementById('khReplayBtn'), khHomeBtn: document.getElementById('khHomeBtn'),
   fishBucket: document.getElementById('fishBucket'), fishCount: document.getElementById('fishCount'), fishWater: document.getElementById('fishWater'),
   tankModal: document.getElementById('tankModal'), closeTankBtn: document.getElementById('closeTankBtn'),
   fishTank: document.getElementById('fishTank'), tankFishLayer: document.getElementById('tankFishLayer'), tankEmpty: document.getElementById('tankEmpty'), tankFishCount: document.getElementById('tankFishCount'),
@@ -750,17 +869,19 @@ const els = {
   ghTokenInput: document.getElementById('ghTokenInput'), publishBtn: document.getElementById('publishBtn'), publishStatus: document.getElementById('publishStatus'),
   matchSets: document.getElementById('matchSets'), matchBoard: document.getElementById('matchBoard'), matchStatus: document.getElementById('matchStatus'),
   puzzlePicker: document.getElementById('puzzlePicker'), puzzleBoard: document.getElementById('puzzleBoard'), puzzleOptions: document.getElementById('puzzleOptions'), puzzleStatus: document.getElementById('puzzleStatus'), newPuzzleBtn: document.getElementById('newPuzzleBtn'),
-  adminTabFlash: document.getElementById('adminTabFlash'), adminTabPuzzle: document.getElementById('adminTabPuzzle'),
-  adminFlashPanel: document.getElementById('adminFlashPanel'), adminPuzzlePanel: document.getElementById('adminPuzzlePanel'),
+  adminTabFlash: document.getElementById('adminTabFlash'), adminTabPuzzle: document.getElementById('adminTabPuzzle'), adminTabKnowledge: document.getElementById('adminTabKnowledge'),
+  adminFlashPanel: document.getElementById('adminFlashPanel'), adminPuzzlePanel: document.getElementById('adminPuzzlePanel'), adminKnowledgePanel: document.getElementById('adminKnowledgePanel'),
   adminTopicSelect: document.getElementById('adminTopicSelect'), adminWordList: document.getElementById('adminWordList'),
-  adminPuzzleGrid: document.getElementById('adminPuzzleGrid'), newPuzzleName: document.getElementById('newPuzzleName'), newPuzzleFile: document.getElementById('newPuzzleFile')
+  adminPuzzleGrid: document.getElementById('adminPuzzleGrid'), newPuzzleName: document.getElementById('newPuzzleName'), newPuzzleFile: document.getElementById('newPuzzleFile'),
+  adminKnowledgeList: document.getElementById('adminKnowledgeList'), addKnowledgeBtn: document.getElementById('addKnowledgeBtn')
 };
 
 const state = {
   soundOn: true,
   currentTopicIdx: null, lessonWords: [], lessonIndex: 0,
   matchSetId: MATCH_SETS[0].id, matchRemaining: 0,
-  puzzleImage: null, puzzleMissing: 0, puzzleAnswering: false
+  puzzleImage: null, puzzleMissing: 0, puzzleAnswering: false,
+  quiz: null, kh: null
 };
 
 /* ---------- Modals / screens ---------- */
@@ -769,7 +890,7 @@ function closeModal(modal) { sfx.tap(); modal.classList.remove('open'); if (!doc
 function showScreen(name) {
   Object.entries(screens).forEach(([key, node]) => node.classList.toggle('active', key === name));
   els.homeBtn.style.display = name === 'home' ? 'none' : 'inline-block';
-  els.fishBucket.classList.toggle('show', name === 'classroom' || name === 'match' || name === 'puzzle');
+  els.fishBucket.classList.toggle('show', name === 'classroom' || name === 'match' || name === 'puzzle' || name === 'knowledge');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -845,15 +966,16 @@ function renderTopics(filter = '') {
 function startClassroom(topicIndex) {
   if ('speechSynthesis' in window) speechSynthesis.cancel();
   state.currentTopicIdx = topicIndex;
-  state.lessonWords = TOPICS[topicIndex].words.map((w, i) => ({ en: w[0], emoji: w[1], wordIdx: i }));
+  state.lessonWords = TOPICS[topicIndex].words.map((w, i) => ({ en: getWordText(topicIndex, i), emoji: w[1], wordIdx: i }));
   state.lessonIndex = 0;
-  els.lessonCardView.classList.remove('hidden'); els.lessonEndView.classList.add('hidden');
+  els.lessonCardView.classList.remove('hidden'); els.lessonQuizView.classList.add('hidden'); els.lessonEndView.classList.add('hidden');
   els.lessonTopic.textContent = `${TOPICS[topicIndex].emoji} ${TOPICS[topicIndex].name}`;
   els.endTopicName.textContent = TOPICS[topicIndex].name;
+  resetBucket();
   showScreen('classroom'); showLessonCard();
 }
 function showLessonCard() {
-  const word = state.lessonWords[state.lessonIndex]; if (!word) return finishLesson();
+  const word = state.lessonWords[state.lessonIndex]; if (!word) return startLessonQuiz();
   els.lessonCounter.textContent = `${state.lessonIndex + 1} / ${state.lessonWords.length}`;
   els.flashEnglish.textContent = word.en;
   const custom = getCustomImage(state.currentTopicIdx, word.wordIdx);
@@ -863,23 +985,79 @@ function showLessonCard() {
   els.flashcard.classList.remove('pop'); void els.flashcard.offsetWidth; els.flashcard.classList.add('pop');
   sfx.pop(); speak(word.en);
 }
-function finishLesson() {
+function finishLesson(quizScore) {
   if ('speechSynthesis' in window) speechSynthesis.cancel();
-  els.lessonCardView.classList.add('hidden'); els.lessonEndView.classList.remove('hidden');
+  els.lessonCardView.classList.add('hidden'); els.lessonQuizView.classList.add('hidden'); els.lessonEndView.classList.remove('hidden');
+  if (quizScore) { els.quizScoreLine.textContent = `🎧 Quiz: ${quizScore.correct} / ${quizScore.total} correct — ${quizScore.correct} fish caught!`; els.quizScoreLine.classList.remove('hidden'); }
+  else { els.quizScoreLine.classList.add('hidden'); }
   if (!progress.exploredTopics.includes(TOPICS[state.currentTopicIdx].name)) { progress.exploredTopics.push(TOPICS[state.currentTopicIdx].name); saveProgress(); }
-  sfx.finish(); burstConfetti(30); resetBucket();
+  sfx.finish(); burstConfetti(30);
   awardFish(els.lessonHomeBtn);
   updateProgressUI(); renderTopics(els.topicSearch.value);
 }
 els.backCardBtn.addEventListener('click', () => { if (state.lessonIndex > 0) { sfx.tap(); state.lessonIndex -= 1; showLessonCard(); } });
 els.nextCardBtn.addEventListener('click', () => {
   sfx.tap();
-  if (state.lessonIndex >= state.lessonWords.length - 1) finishLesson();
+  if (state.lessonIndex >= state.lessonWords.length - 1) startLessonQuiz();
   else { state.lessonIndex += 1; showLessonCard(); }
 });
 els.listenBtn.addEventListener('click', () => speak(state.lessonWords[state.lessonIndex].en, true));
 els.replayLessonBtn.addEventListener('click', () => startClassroom(state.currentTopicIdx));
 els.lessonHomeBtn.addEventListener('click', () => { sfx.tap(); showScreen('home'); });
+
+/* ---------- Lesson quiz: audio-only question, icon-only A/B answers, no text ---------- */
+function optionMedia(emoji, image) { return image ? `<img src="${image}" alt="">` : emoji; }
+function buildEnglishQuizQuestions(topicIdx) {
+  const indices = TOPICS[topicIdx].words.map((w, i) => i);
+  const count = Math.min(5, indices.length);
+  if (count < 2) return [];
+  return shuffle(indices).slice(0, count).map(wordIdx => {
+    const distractorIdx = randomItem(indices.filter(i => i !== wordIdx));
+    return { wordIdx, distractorIdx };
+  });
+}
+function startLessonQuiz() {
+  const questions = buildEnglishQuizQuestions(state.currentTopicIdx);
+  if (!questions.length) return finishLesson();
+  state.quiz = { questions, index: 0, correct: 0 };
+  els.lessonCardView.classList.add('hidden'); els.lessonQuizView.classList.remove('hidden'); els.lessonEndView.classList.add('hidden');
+  showQuizQuestion();
+}
+function showQuizQuestion() {
+  const q = state.quiz.questions[state.quiz.index];
+  if (!q) { finishLesson({ correct: state.quiz.correct, total: state.quiz.questions.length }); return; }
+  els.quizCounter.textContent = `${state.quiz.index + 1} / ${state.quiz.questions.length}`;
+  const topicIdx = state.currentTopicIdx;
+  const correctWord = TOPICS[topicIdx].words[q.wordIdx];
+  const distractorWord = TOPICS[topicIdx].words[q.distractorIdx];
+  const correctOpt = { emoji: correctWord[1], image: getCustomImage(topicIdx, q.wordIdx), en: getWordText(topicIdx, q.wordIdx) };
+  const distractorOpt = { emoji: distractorWord[1], image: getCustomImage(topicIdx, q.distractorIdx) };
+  const onLeft = Math.random() < 0.5;
+  const leftOpt = onLeft ? correctOpt : distractorOpt, rightOpt = onLeft ? distractorOpt : correctOpt;
+  els.quizOptionA.innerHTML = optionMedia(leftOpt.emoji, leftOpt.image);
+  els.quizOptionB.innerHTML = optionMedia(rightOpt.emoji, rightOpt.image);
+  els.quizOptionA.className = 'quiz-option-btn'; els.quizOptionB.className = 'quiz-option-btn';
+  els.quizOptionA.disabled = false; els.quizOptionB.disabled = false;
+  els.quizOptionA.dataset.correct = onLeft ? '1' : '0';
+  els.quizOptionB.dataset.correct = onLeft ? '0' : '1';
+  speak(correctOpt.en);
+}
+function handleQuizAnswer(btn) {
+  if (btn.disabled) return;
+  els.quizOptionA.disabled = true; els.quizOptionB.disabled = true;
+  const isCorrect = btn.dataset.correct === '1';
+  const other = btn === els.quizOptionA ? els.quizOptionB : els.quizOptionA;
+  btn.classList.add(isCorrect ? 'correct' : 'wrong');
+  if (!isCorrect) other.classList.add('correct'); else { state.quiz.correct += 1; awardFish(btn); }
+  isCorrect ? sfx.correct() : sfx.wrong();
+  setTimeout(() => { state.quiz.index += 1; showQuizQuestion(); }, 900);
+}
+els.quizOptionA.addEventListener('click', () => handleQuizAnswer(els.quizOptionA));
+els.quizOptionB.addEventListener('click', () => handleQuizAnswer(els.quizOptionB));
+els.quizListenBtn.addEventListener('click', () => {
+  const q = state.quiz && state.quiz.questions[state.quiz.index]; if (!q) return;
+  speak(getWordText(state.currentTopicIdx, q.wordIdx), true);
+});
 
 /* ---------- Match game (drag & drop) ---------- */
 function renderMatchSets() {
@@ -1086,6 +1264,59 @@ function onPuzzleOptionClick(btn, cell, missRow, missCol) {
 }
 els.newPuzzleBtn.addEventListener('click', () => { sfx.tap(); startPuzzle(null); });
 
+/* ---------- Knowledge Hub: general-knowledge A/B icon quiz ---------- */
+function startKnowledgeHub() {
+  const count = Math.min(8, knowledgeBank.length);
+  if (!count) return;
+  state.kh = { order: shuffle(knowledgeBank.map((_, i) => i)).slice(0, count), index: 0, correct: 0 };
+  els.khQuizView.classList.remove('hidden'); els.khEndView.classList.add('hidden');
+  resetBucket();
+  showScreen('knowledge'); showKnowledgeQuestion();
+}
+function showKnowledgeQuestion() {
+  const idx = state.kh.order[state.kh.index];
+  if (idx === undefined) return finishKnowledgeHub();
+  const q = knowledgeBank[idx];
+  els.khCounter.textContent = `${state.kh.index + 1} / ${state.kh.order.length}`;
+  els.khPromptIcon.innerHTML = optionMedia(q.promptEmoji || '❓', q.promptImage);
+  const correctIsA = q.correct === 'a';
+  const onLeft = Math.random() < 0.5;
+  const aOpt = { emoji: q.aEmoji, image: q.aImage }, bOpt = { emoji: q.bEmoji, image: q.bImage };
+  const leftOpt = onLeft ? aOpt : bOpt, rightOpt = onLeft ? bOpt : aOpt;
+  els.khOptionA.innerHTML = optionMedia(leftOpt.emoji, leftOpt.image);
+  els.khOptionB.innerHTML = optionMedia(rightOpt.emoji, rightOpt.image);
+  els.khOptionA.className = 'quiz-option-btn'; els.khOptionB.className = 'quiz-option-btn';
+  els.khOptionA.disabled = false; els.khOptionB.disabled = false;
+  els.khOptionA.dataset.correct = (onLeft ? correctIsA : !correctIsA) ? '1' : '0';
+  els.khOptionB.dataset.correct = (onLeft ? !correctIsA : correctIsA) ? '1' : '0';
+  speak(q.promptLabel || '');
+}
+function handleKnowledgeAnswer(btn) {
+  if (btn.disabled) return;
+  els.khOptionA.disabled = true; els.khOptionB.disabled = true;
+  const isCorrect = btn.dataset.correct === '1';
+  const other = btn === els.khOptionA ? els.khOptionB : els.khOptionA;
+  btn.classList.add(isCorrect ? 'correct' : 'wrong');
+  if (!isCorrect) other.classList.add('correct'); else { state.kh.correct += 1; awardFish(btn); }
+  isCorrect ? sfx.correct() : sfx.wrong();
+  setTimeout(() => { state.kh.index += 1; showKnowledgeQuestion(); }, 900);
+}
+function finishKnowledgeHub() {
+  els.khQuizView.classList.add('hidden'); els.khEndView.classList.remove('hidden');
+  els.khScoreLine.textContent = `🧠 Score: ${state.kh.correct} / ${state.kh.order.length} correct — ${state.kh.correct} fish caught!`;
+  sfx.finish(); burstConfetti(24);
+  updateProgressUI();
+}
+els.khOptionA.addEventListener('click', () => handleKnowledgeAnswer(els.khOptionA));
+els.khOptionB.addEventListener('click', () => handleKnowledgeAnswer(els.khOptionB));
+els.khListenBtn.addEventListener('click', () => {
+  const idx = state.kh && state.kh.order[state.kh.index]; if (idx === undefined) return;
+  speak(knowledgeBank[idx].promptLabel || '', true);
+});
+els.khReplayBtn.addEventListener('click', () => { sfx.tap(); startKnowledgeHub(); });
+els.khHomeBtn.addEventListener('click', () => { sfx.tap(); showScreen('home'); });
+els.knowledgeModeBtn.addEventListener('click', () => { sfx.tap(); startKnowledgeHub(); });
+
 /* ---------- Admin: flashcard pictures ---------- */
 function renderAdminTopicSelect() {
   els.adminTopicSelect.innerHTML = TOPICS.map((t, i) => `<option value="${i}">${t.emoji} ${t.name}</option>`).join('');
@@ -1095,19 +1326,23 @@ function renderAdminWordList() {
   const topic = TOPICS[topicIdx];
   els.adminWordList.innerHTML = '';
   topic.words.forEach((w, wordIdx) => {
-    const [en, emoji] = w;
+    const [, emoji] = w;
+    const en = getWordText(topicIdx, wordIdx);
     const custom = getCustomImage(topicIdx, wordIdx);
     const row = document.createElement('div'); row.className = 'word-row';
     row.innerHTML = `
       <div class="word-thumb">${custom ? `<img src="${custom}" alt="${en}">` : emoji}</div>
-      <div class="word-label">${en}</div>
+      <input type="text" class="word-label-input" value="${en.replace(/"/g, '&quot;')}" />
       <label class="small-btn file-btn" style="text-align:center">📤 Upload<input type="file" accept="image/*" class="admin-upload-input"></label>
       <button class="danger-btn remove-image-btn" type="button" ${custom ? '' : 'disabled style="opacity:.35;cursor:not-allowed"'}>🗑️ Remove</button>
     `;
+    row.querySelector('.word-label-input').addEventListener('change', e => {
+      setWordText(topicIdx, wordIdx, e.target.value.trim()); sfx.tap();
+    });
     row.querySelector('.admin-upload-input').addEventListener('change', e => {
       const file = e.target.files[0]; if (!file) return;
       resizeImageFile(file, 640, false, async dataUrl => {
-        const wordSlug = slugify((TOPICS[topicIdx].words[wordIdx] || [])[0] || `${topicIdx}-${wordIdx}`);
+        const wordSlug = slugify(TOPICS[topicIdx].words[wordIdx][0] || `${topicIdx}-${wordIdx}`);
         const filename = `word-${wordSlug}-${Date.now()}.jpg`;
         try {
           const url = await uploadResourceToGitHub(dataUrl, filename);
@@ -1152,20 +1387,87 @@ els.newPuzzleFile.addEventListener('change', e => {
     savePuzzles(); els.newPuzzleName.value = ''; e.target.value = ''; renderAdminPuzzleGrid(); sfx.tap();
   });
 });
-els.adminTabFlash.addEventListener('click', () => {
-  els.adminTabFlash.classList.add('active'); els.adminTabPuzzle.classList.remove('active');
-  els.adminFlashPanel.classList.remove('hidden'); els.adminPuzzlePanel.classList.add('hidden'); sfx.tap();
-});
-els.adminTabPuzzle.addEventListener('click', () => {
-  els.adminTabPuzzle.classList.add('active'); els.adminTabFlash.classList.remove('active');
-  els.adminPuzzlePanel.classList.remove('hidden'); els.adminFlashPanel.classList.add('hidden');
-  renderAdminPuzzleGrid(); sfx.tap();
+function setAdminTab(tab) {
+  const tabs = { flash: [els.adminTabFlash, els.adminFlashPanel], puzzle: [els.adminTabPuzzle, els.adminPuzzlePanel], knowledge: [els.adminTabKnowledge, els.adminKnowledgePanel] };
+  Object.entries(tabs).forEach(([key, [btn, panel]]) => { btn.classList.toggle('active', key === tab); panel.classList.toggle('hidden', key !== tab); });
+  if (tab === 'puzzle') renderAdminPuzzleGrid();
+  if (tab === 'knowledge') renderAdminKnowledgeList();
+  sfx.tap();
+}
+els.adminTabFlash.addEventListener('click', () => setAdminTab('flash'));
+els.adminTabPuzzle.addEventListener('click', () => setAdminTab('puzzle'));
+els.adminTabKnowledge.addEventListener('click', () => setAdminTab('knowledge'));
+
+/* ---------- Admin: Knowledge Hub questions ---------- */
+function khIconField(q, key, fallbackField) {
+  const img = q[key + 'Image'];
+  return img ? `<img src="${img}" alt="">` : (q[fallbackField] || '❓');
+}
+function renderAdminKnowledgeList() {
+  els.adminKnowledgeList.innerHTML = '';
+  knowledgeBank.forEach((q, qi) => {
+    const card = document.createElement('div'); card.className = 'kh-admin-card';
+    card.innerHTML = `
+      <div class="admin-select-row" style="justify-content:space-between;margin-bottom:0">
+        <strong>Question ${qi + 1}</strong>
+        <button class="danger-btn kh-delete-btn" type="button">🗑️ Delete Question</button>
+      </div>
+      <div class="kh-admin-grid">
+        <div class="kh-admin-item" data-role="prompt">
+          <h4>Prompt</h4>
+          <div class="kh-thumb">${khIconField(q, 'prompt', 'promptEmoji')}</div>
+          <input type="text" class="kh-text-input" data-field="promptLabel" value="${(q.promptLabel || '').replace(/"/g, '&quot;')}" placeholder="Label (spoken aloud)" />
+          <label class="small-btn file-btn">📤 Image<input type="file" accept="image/*" class="kh-upload-input"></label>
+        </div>
+        <div class="kh-admin-item ${q.correct === 'a' ? 'is-correct' : ''}" data-role="a">
+          <h4>Option A</h4>
+          <div class="kh-thumb">${khIconField(q, 'a', 'aEmoji')}</div>
+          <input type="text" class="kh-text-input" data-field="aLabel" value="${(q.aLabel || '').replace(/"/g, '&quot;')}" placeholder="Label" />
+          <label class="small-btn file-btn">📤 Image<input type="file" accept="image/*" class="kh-upload-input"></label>
+          <label class="kh-correct-label"><input type="radio" name="kh-correct-${qi}" class="kh-correct-radio" value="a" ${q.correct === 'a' ? 'checked' : ''}> Correct answer</label>
+        </div>
+        <div class="kh-admin-item ${q.correct === 'b' ? 'is-correct' : ''}" data-role="b">
+          <h4>Option B</h4>
+          <div class="kh-thumb">${khIconField(q, 'b', 'bEmoji')}</div>
+          <input type="text" class="kh-text-input" data-field="bLabel" value="${(q.bLabel || '').replace(/"/g, '&quot;')}" placeholder="Label" />
+          <label class="small-btn file-btn">📤 Image<input type="file" accept="image/*" class="kh-upload-input"></label>
+          <label class="kh-correct-label"><input type="radio" name="kh-correct-${qi}" class="kh-correct-radio" value="b" ${q.correct === 'b' ? 'checked' : ''}> Correct answer</label>
+        </div>
+      </div>
+    `;
+    card.querySelectorAll('.kh-text-input').forEach(input => {
+      input.addEventListener('change', e => { q[e.target.dataset.field] = e.target.value.trim(); saveKnowledgeBank(); sfx.tap(); });
+    });
+    card.querySelectorAll('.kh-correct-radio').forEach(radio => {
+      radio.addEventListener('change', e => { q.correct = e.target.value; saveKnowledgeBank(); renderAdminKnowledgeList(); sfx.tap(); });
+    });
+    card.querySelectorAll('.kh-upload-input').forEach(input => {
+      const role = input.closest('.kh-admin-item').dataset.role;
+      input.addEventListener('change', e => {
+        const file = e.target.files[0]; if (!file) return;
+        resizeImageFile(file, 500, true, async dataUrl => {
+          const filename = `kh-${slugify(q.id)}-${role}-${Date.now()}.jpg`;
+          try { q[role + 'Image'] = (await uploadResourceToGitHub(dataUrl, filename)) || dataUrl; }
+          catch (err) { alert('Could not upload to GitHub (' + err.message + '). Saved on this device instead.'); q[role + 'Image'] = dataUrl; }
+          saveKnowledgeBank(); renderAdminKnowledgeList(); sfx.tap();
+        });
+      });
+    });
+    card.querySelector('.kh-delete-btn').addEventListener('click', () => {
+      knowledgeBank = knowledgeBank.filter(x => x.id !== q.id); saveKnowledgeBank(); renderAdminKnowledgeList(); sfx.tap();
+    });
+    els.adminKnowledgeList.appendChild(card);
+  });
+}
+els.addKnowledgeBtn.addEventListener('click', () => {
+  knowledgeBank.push({ id: `kq_custom_${Date.now()}`, promptLabel: 'New Question', promptEmoji: '❓', aLabel: 'Option A', aEmoji: '✅', bLabel: 'Option B', bEmoji: '❌', correct: 'a' });
+  saveKnowledgeBank(); renderAdminKnowledgeList(); sfx.tap();
 });
 
 /* ---------- Backup & restore ---------- */
 els.downloadBackupBtn.addEventListener('click', () => {
   sfx.tap();
-  const backup = { version: 1, progress, customImages, customPuzzles, exportedAt: new Date().toISOString() };
+  const backup = { version: 1, progress, customImages, customPuzzles, customWordText, knowledgeBank, exportedAt: new Date().toISOString() };
   const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob); const a = document.createElement('a');
   a.href = url; a.download = `word-fish-baby-backup-${Date.now()}.json`; a.click(); URL.revokeObjectURL(url);
@@ -1179,6 +1481,8 @@ els.restoreFile.addEventListener('change', e => {
       if (data.progress) { progress = data.progress; saveProgress(); }
       if (data.customImages) { customImages = data.customImages; saveImages(); }
       if (data.customPuzzles) { customPuzzles = data.customPuzzles; savePuzzles(); }
+      if (data.customWordText) { customWordText = data.customWordText; saveWordText(); }
+      if (data.knowledgeBank) { knowledgeBank = data.knowledgeBank; saveKnowledgeBank(); }
       updateProgressUI(); renderFishTank(); renderTopics(els.topicSearch.value); sfx.finish();
       alert('Backup restored! 🎉');
     } catch { alert('Sorry, that file could not be read.'); }
@@ -1241,7 +1545,7 @@ async function publishToGitHub() {
       throw new Error(errJson.message || `Lookup failed (${existing.status})`);
     }
 
-    const payload = { version: 1, progress, customImages, customPuzzles, publishedAt: new Date().toISOString() };
+    const payload = { version: 1, progress, customImages, customPuzzles, customWordText, knowledgeBank, publishedAt: new Date().toISOString() };
     const body = {
       message: `Publish data.json — ${new Date().toISOString()}`,
       content: b64EncodeUnicode(JSON.stringify(payload, null, 2)),
@@ -1289,7 +1593,7 @@ els.dataBtn.addEventListener('click', () => {
 });
 els.closeDataBtn.addEventListener('click', () => closeModal(els.dataModal));
 els.dataModal.addEventListener('click', e => { if (e.target === els.dataModal) closeModal(els.dataModal); });
-els.adminBtn.addEventListener('click', () => { sfx.tap(); renderAdminTopicSelect(); renderAdminWordList(); showScreen('admin'); });
+els.adminBtn.addEventListener('click', () => { sfx.tap(); renderAdminTopicSelect(); renderAdminWordList(); setAdminTab('flash'); showScreen('admin'); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') { if (els.tankModal.classList.contains('open')) closeModal(els.tankModal); if (els.dataModal.classList.contains('open')) closeModal(els.dataModal); } });
 
 /* ---------- Init ---------- */
