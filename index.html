@@ -248,7 +248,11 @@
   /* Puzzle game */
   .puzzle-wrap { min-height: calc(100vh - 120px); display: grid; place-items: center; padding: 12px 0 30px; }
   .puzzle-panel { width: min(720px, 100%); border: 3px solid var(--line); border-radius: var(--radius-xl); background: #fff; box-shadow: var(--shadow); overflow: hidden; }
-  .puzzle-picker { display: flex; flex-wrap: wrap; gap: 9px; padding: 16px 22px 0; }
+  .puzzle-nav { display: flex; align-items: center; justify-content: center; gap: 16px; padding: 16px 22px 0; }
+  .puzzle-nav-btn { width: 46px; height: 46px; border-radius: 50%; border: 2px solid var(--line); background: #fff; font-size: 18px; font-weight: 900; color: var(--blue-dark); cursor: pointer; box-shadow: 0 4px 0 #edf2fa; display: grid; place-items: center; flex: 0 0 auto; }
+  .puzzle-nav-btn:hover { border-color: #b8d2fa; }
+  .puzzle-nav-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #edf2fa; }
+  .puzzle-nav-name { font-weight: 900; font-size: 17px; color: var(--ink); min-width: 130px; text-align: center; }
   .puzzle-body { padding: 22px; text-align: center; }
   .puzzle-board { width: min(360px, 90vw); aspect-ratio: 1; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); gap: 3px; border: 5px solid #dce7f7; border-radius: 22px; overflow: hidden; background: #dce7f7; }
   .puzzle-cell { background-repeat: no-repeat; }
@@ -461,7 +465,11 @@
       <div class="puzzle-wrap">
         <div class="puzzle-panel">
           <div class="mode-header"><strong>🧩 Picture Puzzle</strong><span class="mode-badge">Find the missing piece!</span></div>
-          <div class="puzzle-picker" id="puzzlePicker"></div>
+          <div class="puzzle-nav">
+            <button class="puzzle-nav-btn" id="puzzlePrevBtn" type="button" aria-label="Previous picture">◀</button>
+            <div class="puzzle-nav-name" id="puzzleNavName">Picture</div>
+            <button class="puzzle-nav-btn" id="puzzleNextBtn" type="button" aria-label="Next picture">▶</button>
+          </div>
           <div class="puzzle-body">
             <div class="puzzle-board" id="puzzleBoard"></div>
             <div class="puzzle-options" id="puzzleOptions"></div>
@@ -889,7 +897,8 @@ const els = {
   ghTokenInput: document.getElementById('ghTokenInput'), publishBtn: document.getElementById('publishBtn'), publishStatus: document.getElementById('publishStatus'),
   loadFromGithubBtn: document.getElementById('loadFromGithubBtn'),
   matchSets: document.getElementById('matchSets'), matchBoard: document.getElementById('matchBoard'), matchStatus: document.getElementById('matchStatus'),
-  puzzlePicker: document.getElementById('puzzlePicker'), puzzleBoard: document.getElementById('puzzleBoard'), puzzleOptions: document.getElementById('puzzleOptions'), puzzleStatus: document.getElementById('puzzleStatus'), newPuzzleBtn: document.getElementById('newPuzzleBtn'),
+  puzzlePrevBtn: document.getElementById('puzzlePrevBtn'), puzzleNavName: document.getElementById('puzzleNavName'), puzzleNextBtn: document.getElementById('puzzleNextBtn'),
+  puzzleBoard: document.getElementById('puzzleBoard'), puzzleOptions: document.getElementById('puzzleOptions'), puzzleStatus: document.getElementById('puzzleStatus'), newPuzzleBtn: document.getElementById('newPuzzleBtn'),
   adminTabFlash: document.getElementById('adminTabFlash'), adminTabPuzzle: document.getElementById('adminTabPuzzle'), adminTabKnowledge: document.getElementById('adminTabKnowledge'),
   adminFlashPanel: document.getElementById('adminFlashPanel'), adminPuzzlePanel: document.getElementById('adminPuzzlePanel'), adminKnowledgePanel: document.getElementById('adminKnowledgePanel'),
   adminTopicSelect: document.getElementById('adminTopicSelect'), adminWordList: document.getElementById('adminWordList'),
@@ -1221,22 +1230,24 @@ function completeMatchRound() {
 }
 
 /* ---------- Puzzle game ---------- */
-function renderPuzzlePicker() {
-  const puzzles = allPuzzles();
-  els.puzzlePicker.innerHTML = '';
-  puzzles.forEach(p => {
-    const chip = document.createElement('button'); chip.type = 'button'; chip.className = `set-chip${state.puzzleImage && state.puzzleImage.id === p.id ? ' active' : ''}`;
-    chip.textContent = p.name;
-    chip.addEventListener('click', () => { sfx.tap(); startPuzzle(p); });
-    els.puzzlePicker.appendChild(chip);
-  });
+function updatePuzzleNav() {
+  els.puzzleNavName.textContent = state.puzzleImage ? state.puzzleImage.name : '';
 }
+function stepPuzzle(direction) {
+  const puzzles = allPuzzles();
+  if (!puzzles.length) return;
+  const currentIdx = Math.max(0, puzzles.findIndex(p => state.puzzleImage && p.id === state.puzzleImage.id));
+  const nextIdx = (currentIdx + direction + puzzles.length) % puzzles.length;
+  sfx.tap(); startPuzzle(puzzles[nextIdx]);
+}
+els.puzzlePrevBtn.addEventListener('click', () => stepPuzzle(-1));
+els.puzzleNextBtn.addEventListener('click', () => stepPuzzle(1));
 function startPuzzle(puzzleObj) {
   const puzzles = allPuzzles();
   state.puzzleImage = puzzleObj || randomItem(puzzles);
   state.puzzleMissing = Math.floor(Math.random() * 9);
   state.puzzleAnswering = false;
-  renderPuzzlePicker();
+  updatePuzzleNav();
   els.puzzleStatus.textContent = 'Tap the piece that completes the picture!'; els.puzzleStatus.className = 'puzzle-status';
   const img = state.puzzleImage.image;
   els.puzzleBoard.innerHTML = '';
