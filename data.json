@@ -10,19 +10,14 @@
   "customImages": {},
   "customPuzzles": [
     {
-      "id": "custom_1785615343387",
-      "name": "Siu 1",
-      "image": "https://raw.githubusercontent.com/sseoyi/wordfishbaby/main/res/puzzle-siu-1-1785615341538.jpg"
+      "id": "custom_1785654411190",
+      "name": "Siu",
+      "image": "https://raw.githubusercontent.com/sseoyi/wordfishbaby/main/res/puz/puzzle-siu-1785654409321.jpg"
     },
     {
-      "id": "custom_1785615379313",
-      "name": "Siu 2",
-      "image": "https://raw.githubusercontent.com/sseoyi/wordfishbaby/main/res/puzzle-siu-2-1785615377104.jpg"
-    },
-    {
-      "id": "custom_1785615546142",
-      "name": "Siu 3",
-      "image": "https://raw.githubusercontent.com/sseoyi/wordfishbaby/main/res/puzzle-siu-3-1785615544734.jpg"
+      "id": "custom_1785654457056",
+      "name": "Siu",
+      "image": "https://raw.githubusercontent.com/sseoyi/wordfishbaby/main/res/puz/puzzle-siu-1785654454689.jpg"
     }
   ],
   "customWordText": {},
@@ -128,5 +123,5 @@
       "correct": "a"
     }
   ],
-  "publishedAt": "2026-08-02T06:34:31.427Z"
+  "publishedAt": "2026-08-02T07:07:41.263Z"
 }
