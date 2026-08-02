@@ -337,7 +337,7 @@
     <div class="top-actions">
       <button class="top-pill-btn" id="tankBtn" type="button" aria-label="Open fish tank">🐠 <span>Fish Tank</span> <strong id="totalFishTop">0</strong></button>
       <button class="icon-btn" id="adminBtn" type="button" aria-label="Open admin picture manager" title="Admin: Manage Pictures">🛠️</button>
-      <button class="icon-btn" id="dataBtn" type="button" aria-label="Backup and restore" title="Backup & Restore">☁️</button>
+      <button class="icon-btn" id="dataBtn" type="button" aria-label="Data and GitHub settings" title="Data & GitHub">☁️</button>
       <button class="home-btn" id="homeBtn" type="button" aria-label="Go home">Home</button>
       <button class="icon-btn" id="soundBtn" type="button" aria-label="Turn sound off" title="Sound on">🔊</button>
     </div>
@@ -571,28 +571,36 @@
 
 <div class="modal-backdrop" id="dataModal" role="dialog" aria-modal="true" aria-labelledby="dataTitle">
   <section class="modal-card">
-    <button class="modal-close" id="closeDataBtn" type="button" aria-label="Close backup settings">✕</button>
+    <button class="modal-close" id="closeDataBtn" type="button" aria-label="Close data settings">✕</button>
     <div class="modal-heading">
       <div class="modal-icon">☁️</div>
-      <div><h2 id="dataTitle">Backup & Restore</h2><p>Save your pictures and fish progress to a file, or restore from one.</p></div>
+      <div><h2 id="dataTitle">Data & GitHub</h2><p>Load and publish learner progress through <code>data.json</code>.</p></div>
     </div>
-    <p style="color:var(--muted);font-weight:800;line-height:1.5">Everything (uploaded pictures, fish tank, and progress) is saved in this browser. Download a backup file to keep it safe, or move it to another device.</p>
+    <label style="display:block;font-weight:900;margin:4px 0 6px" for="ghOwnerInput">GitHub owner</label>
+    <input type="text" id="ghOwnerInput" placeholder="sseoyi" style="width:100%;padding:12px 14px;border:2px solid var(--line);border-radius:14px;font:inherit;font-weight:700;color:var(--ink);margin-bottom:12px" />
+    <label style="display:block;font-weight:900;margin:0 0 6px" for="ghRepoInput">Repository</label>
+    <input type="text" id="ghRepoInput" placeholder="wordfishbaby" style="width:100%;padding:12px 14px;border:2px solid var(--line);border-radius:14px;font:inherit;font-weight:700;color:var(--ink);margin-bottom:12px" />
+    <label style="display:block;font-weight:900;margin:0 0 6px" for="ghBranchInput">Branch</label>
+    <input type="text" id="ghBranchInput" placeholder="main" style="width:100%;padding:12px 14px;border:2px solid var(--line);border-radius:14px;font:inherit;font-weight:700;color:var(--ink);margin-bottom:12px" />
+    <label style="display:block;font-weight:900;margin:0 0 6px" for="ghPathInput">Data path</label>
+    <input type="text" id="ghPathInput" placeholder="data.json" style="width:100%;padding:12px 14px;border:2px solid var(--line);border-radius:14px;font:inherit;font-weight:700;color:var(--ink);margin-bottom:12px" />
+    <label style="display:block;font-weight:900;margin:0 0 6px" for="ghTokenInput">GitHub access token</label>
+    <input type="password" id="ghTokenInput" placeholder="github_pat_... or ghp_..." autocomplete="off" style="width:100%;padding:12px 14px;border:2px solid var(--line);border-radius:14px;font:inherit;font-weight:700;color:var(--ink);margin-bottom:12px" />
+    <p style="background:#fff6dd;border:2px solid #ffe8a8;border-radius:14px;padding:12px 14px;color:#8c6727;font-weight:800;line-height:1.5;margin-bottom:14px">The latest token is saved in this browser so it remains after refresh. It is sent only to api.github.com when you publish or load. Use a fine-grained token with Contents read/write access to this repository.</p>
     <div class="modal-actions">
-      <label class="small-btn file-btn" style="text-align:center">⬆️ Restore from File<input type="file" id="restoreFile" accept="application/json" /></label>
-      <button class="primary-btn" id="downloadBackupBtn" type="button">⬇️ Download Backup</button>
-    </div>
-    <hr style="border:none;border-top:2px solid var(--line);margin:22px 0" />
-    <div class="modal-heading" style="margin-bottom:8px">
-      <div class="modal-icon">🚀</div>
-      <div><h2 style="font-size:22px">Publish to GitHub</h2><p>Push this data as data.json to the sseoyi/wordfishbaby repo.</p></div>
-    </div>
-    <p style="color:var(--muted);font-weight:800;line-height:1.5">Paste a GitHub personal access token with access to <strong>sseoyi/wordfishbaby</strong> (repo scope). It's kept only in this browser's storage, never sent anywhere but GitHub's API.</p>
-    <label style="display:block;font-weight:900;margin:10px 0 6px" for="ghTokenInput">GitHub token</label>
-    <input type="password" id="ghTokenInput" placeholder="ghp_..." autocomplete="off" style="width:100%;padding:12px 14px;border:2px solid var(--line);border-radius:14px;font:inherit;font-weight:700;color:var(--ink);margin-bottom:12px" />
-    <div class="modal-actions">
-      <button class="secondary-btn" id="publishBtn" type="button">🚀 Publish data.json</button>
+      <button class="secondary-btn" id="loadFromGithubBtn" type="button">⬇️ Load from GitHub</button>
+      <button class="primary-btn" id="publishBtn" type="button">🚀 Publish data.json</button>
     </div>
     <p id="publishStatus" style="margin-top:10px;font-weight:850;min-height:20px"></p>
+    <hr style="border:none;border-top:2px solid var(--line);margin:22px 0" />
+    <div class="modal-heading" style="margin-bottom:8px">
+      <div class="modal-icon">💾</div>
+      <div><h2 style="font-size:22px">Local Backup & Restore</h2><p>Save a copy to a file on this device, or restore from one.</p></div>
+    </div>
+    <div class="modal-actions">
+      <label class="small-btn file-btn" style="text-align:center">⬆️ Restore from File<input type="file" id="restoreFile" accept="application/json" /></label>
+      <button class="secondary-btn" id="downloadBackupBtn" type="button">⬇️ Download Backup</button>
+    </div>
   </section>
 </div>
 
@@ -706,8 +714,18 @@ const STORAGE_PUZZLES = 'wordzoo.puzzles.v1';
 const STORAGE_WORDTEXT = 'wordfishbaby.wordtext.v1';
 const STORAGE_KNOWLEDGE = 'wordfishbaby.knowledge.v1';
 const STORAGE_GH_TOKEN = 'wordfishbaby.ghtoken.v1';
-const GH_REPO = 'sseoyi/wordfishbaby';
-const GH_DATA_PATH = 'data.json';
+const STORAGE_GH_SETTINGS = 'wordfishbaby.ghsettings.v1';
+const GH_DEFAULTS = { owner: 'sseoyi', repo: 'wordfishbaby', branch: 'main', path: 'data.json' };
+function getGhSettings() {
+  const saved = loadJSON(STORAGE_GH_SETTINGS, {});
+  return {
+    owner: (saved.owner || GH_DEFAULTS.owner).trim(),
+    repo: (saved.repo || GH_DEFAULTS.repo).trim(),
+    branch: (saved.branch || GH_DEFAULTS.branch).trim(),
+    path: (saved.path || GH_DEFAULTS.path).trim().replace(/^\/+/, '')
+  };
+}
+function ghRepoSlug() { const s = getGhSettings(); return `${s.owner}/${s.repo}`; }
 const memoryStorage = new Map();
 function storageGet(key) { try { return localStorage.getItem(key); } catch { return memoryStorage.get(key) ?? null; } }
 function storageSet(key, value) { try { localStorage.setItem(key, value); } catch { memoryStorage.set(key, String(value)); } }
@@ -866,7 +884,10 @@ const els = {
   fishTank: document.getElementById('fishTank'), tankFishLayer: document.getElementById('tankFishLayer'), tankEmpty: document.getElementById('tankEmpty'), tankFishCount: document.getElementById('tankFishCount'),
   dataModal: document.getElementById('dataModal'), closeDataBtn: document.getElementById('closeDataBtn'),
   downloadBackupBtn: document.getElementById('downloadBackupBtn'), restoreFile: document.getElementById('restoreFile'),
+  ghOwnerInput: document.getElementById('ghOwnerInput'), ghRepoInput: document.getElementById('ghRepoInput'),
+  ghBranchInput: document.getElementById('ghBranchInput'), ghPathInput: document.getElementById('ghPathInput'),
   ghTokenInput: document.getElementById('ghTokenInput'), publishBtn: document.getElementById('publishBtn'), publishStatus: document.getElementById('publishStatus'),
+  loadFromGithubBtn: document.getElementById('loadFromGithubBtn'),
   matchSets: document.getElementById('matchSets'), matchBoard: document.getElementById('matchBoard'), matchStatus: document.getElementById('matchStatus'),
   puzzlePicker: document.getElementById('puzzlePicker'), puzzleBoard: document.getElementById('puzzleBoard'), puzzleOptions: document.getElementById('puzzleOptions'), puzzleStatus: document.getElementById('puzzleStatus'), newPuzzleBtn: document.getElementById('newPuzzleBtn'),
   adminTabFlash: document.getElementById('adminTabFlash'), adminTabPuzzle: document.getElementById('adminTabPuzzle'), adminTabKnowledge: document.getElementById('adminTabKnowledge'),
@@ -1381,7 +1402,7 @@ els.newPuzzleFile.addEventListener('change', e => {
   resizeImageFile(file, 500, true, async dataUrl => {
     const filename = `puzzle-${slugify(name)}-${Date.now()}.jpg`;
     let image = dataUrl;
-    try { image = (await uploadResourceToGitHub(dataUrl, filename)) || dataUrl; }
+    try { image = (await uploadResourceToGitHub(dataUrl, filename, 'puz')) || dataUrl; }
     catch (err) { alert('Could not upload to GitHub (' + err.message + '). Saved on this device instead.'); }
     customPuzzles.push({ id: `custom_${Date.now()}`, name, image });
     savePuzzles(); els.newPuzzleName.value = ''; e.target.value = ''; renderAdminPuzzleGrid(); sfx.tap();
@@ -1494,17 +1515,18 @@ els.restoreFile.addEventListener('change', e => {
 /* ---------- Upload images/audio to GitHub res/ folder ---------- */
 function getGhToken() { return (els.ghTokenInput && els.ghTokenInput.value.trim()) || loadJSON(STORAGE_GH_TOKEN, ''); }
 function slugify(s) { return String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '').slice(0, 40) || 'file'; }
-async function uploadResourceToGitHub(dataUrl, filename) {
+async function uploadResourceToGitHub(dataUrl, filename, subfolder) {
   const token = getGhToken();
-  if (!token) { const err = new Error('Add a GitHub token in ☁️ Backup & Restore first.'); err.code = 'no-token'; throw err; }
+  if (!token) { const err = new Error('Add a GitHub token in ☁️ Data & GitHub first.'); err.code = 'no-token'; throw err; }
+  const { branch } = getGhSettings();
   const base64 = dataUrl.slice(dataUrl.indexOf(',') + 1); // data URLs are already base64 after the comma
-  const path = `res/${filename}`;
-  const apiUrl = `https://api.github.com/repos/${GH_REPO}/contents/${path}`;
+  const path = subfolder ? `res/${subfolder}/${filename}` : `res/${filename}`;
+  const apiUrl = `https://api.github.com/repos/${ghRepoSlug()}/contents/${path}`;
   const headers = { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github+json' };
   const res = await fetch(apiUrl, {
     method: 'PUT',
     headers: { ...headers, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ message: `Add ${path}`, content: base64 })
+    body: JSON.stringify({ message: `Add ${path}`, content: base64, branch })
   });
   if (!res.ok) {
     const errJson = await res.json().catch(() => ({}));
@@ -1514,12 +1536,17 @@ async function uploadResourceToGitHub(dataUrl, filename) {
   return json.content && json.content.download_url;
 }
 
-/* ---------- Publish to GitHub ---------- */
+/* ---------- Publish / load data.json ---------- */
 function b64EncodeUnicode(str) {
   const bytes = new TextEncoder().encode(str);
   let binary = '';
   bytes.forEach(b => { binary += String.fromCharCode(b); });
   return btoa(binary);
+}
+function b64DecodeUnicode(b64) {
+  const binary = atob(b64.replace(/\n/g, ''));
+  const bytes = Uint8Array.from(binary, c => c.charCodeAt(0));
+  return new TextDecoder().decode(bytes);
 }
 async function publishToGitHub() {
   const token = els.ghTokenInput.value.trim() || loadJSON(STORAGE_GH_TOKEN, '');
@@ -1530,13 +1557,14 @@ async function publishToGitHub() {
   els.publishStatus.style.color = 'var(--muted)';
   els.publishStatus.textContent = '⏳ Publishing…';
 
-  const apiUrl = `https://api.github.com/repos/${GH_REPO}/contents/${GH_DATA_PATH}`;
+  const { branch, path } = getGhSettings();
+  const apiUrl = `https://api.github.com/repos/${ghRepoSlug()}/contents/${path}`;
   const headers = { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github+json' };
 
   try {
     // Look up the current file's sha (needed to update an existing file); ok if it doesn't exist yet.
     let sha;
-    const existing = await fetch(apiUrl, { headers });
+    const existing = await fetch(`${apiUrl}?ref=${encodeURIComponent(branch)}`, { headers });
     if (existing.status === 200) {
       const existingJson = await existing.json();
       sha = existingJson.sha;
@@ -1547,8 +1575,9 @@ async function publishToGitHub() {
 
     const payload = { version: 1, progress, customImages, customPuzzles, customWordText, knowledgeBank, publishedAt: new Date().toISOString() };
     const body = {
-      message: `Publish data.json — ${new Date().toISOString()}`,
+      message: `Publish ${path} — ${new Date().toISOString()}`,
       content: b64EncodeUnicode(JSON.stringify(payload, null, 2)),
+      branch,
       ...(sha ? { sha } : {})
     };
 
@@ -1559,7 +1588,7 @@ async function publishToGitHub() {
     }
 
     els.publishStatus.style.color = 'var(--mint-dark)';
-    els.publishStatus.textContent = '✅ Published to ' + GH_REPO + '/' + GH_DATA_PATH;
+    els.publishStatus.textContent = '✅ Published to ' + ghRepoSlug() + '/' + path;
     sfx.finish();
   } catch (err) {
     els.publishStatus.style.color = '#c0392b';
@@ -1569,6 +1598,63 @@ async function publishToGitHub() {
   }
 }
 els.publishBtn.addEventListener('click', () => { sfx.tap(); publishToGitHub(); });
+
+/* Auto-load data.json from GitHub — uses a token if one is saved, otherwise tries an unauthenticated
+   read (works if the repo/file is public). Silently does nothing if it can't be reached. */
+async function loadDataJsonFromGitHub(showStatus) {
+  const { branch, path } = getGhSettings();
+  const token = getGhToken();
+  const headers = { 'Accept': 'application/vnd.github+json' };
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+  if (showStatus) { els.publishStatus.style.color = 'var(--muted)'; els.publishStatus.textContent = '⏳ Loading from GitHub…'; }
+  try {
+    const apiUrl = `https://api.github.com/repos/${ghRepoSlug()}/contents/${path}?ref=${encodeURIComponent(branch)}`;
+    const res = await fetch(apiUrl, { headers });
+    if (res.status === 404) { if (showStatus) { els.publishStatus.style.color = '#c0392b'; els.publishStatus.textContent = `⚠️ No ${path} found yet in ${ghRepoSlug()}.`; } return false; }
+    if (!res.ok) throw new Error(`Load failed (${res.status})`);
+    const json = await res.json();
+    const data = JSON.parse(b64DecodeUnicode(json.content));
+    if (data.progress) { progress = data.progress; saveProgress(); }
+    if (data.customImages) { customImages = data.customImages; saveImages(); }
+    if (data.customPuzzles) { customPuzzles = data.customPuzzles; savePuzzles(); }
+    if (data.customWordText) { customWordText = data.customWordText; saveWordText(); }
+    if (data.knowledgeBank) { knowledgeBank = data.knowledgeBank; saveKnowledgeBank(); }
+    updateProgressUI(); renderFishTank(); renderTopics(els.topicSearch ? els.topicSearch.value : '');
+    if (document.getElementById('adminScreen').classList.contains('active')) { renderAdminWordList(); }
+    if (showStatus) { els.publishStatus.style.color = 'var(--mint-dark)'; els.publishStatus.textContent = '✅ Loaded from ' + ghRepoSlug() + '/' + path; sfx.finish(); }
+    return true;
+  } catch (err) {
+    if (showStatus) { els.publishStatus.style.color = '#c0392b'; els.publishStatus.textContent = '❌ ' + (err.message || 'Could not load from GitHub.'); }
+    return false;
+  }
+}
+els.loadFromGithubBtn.addEventListener('click', () => { sfx.tap(); loadDataJsonFromGitHub(true); });
+
+/* Auto-load puzzle pictures from res/puz in the repo, so any images placed there (by any device)
+   show up in the puzzle game and admin grid without needing a manual restore. */
+async function loadPuzzleFolderFromGitHub() {
+  const { branch } = getGhSettings();
+  const token = getGhToken();
+  const headers = { 'Accept': 'application/vnd.github+json' };
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+  try {
+    const apiUrl = `https://api.github.com/repos/${ghRepoSlug()}/contents/res/puz?ref=${encodeURIComponent(branch)}`;
+    const res = await fetch(apiUrl, { headers });
+    if (!res.ok) return; // folder may not exist yet — nothing to do
+    const files = await res.json();
+    if (!Array.isArray(files)) return;
+    let changed = false;
+    files.filter(f => f.type === 'file' && /\.(png|jpe?g|gif|webp)$/i.test(f.name)).forEach(f => {
+      const id = `repo_${f.sha}`;
+      if (!customPuzzles.some(p => p.id === id)) {
+        const name = f.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+        customPuzzles.push({ id, name, image: f.download_url });
+        changed = true;
+      }
+    });
+    if (changed) { savePuzzles(); renderAdminPuzzleGrid(); }
+  } catch { /* offline or repo unavailable — ignore */ }
+}
 
 /* ---------- Global events ---------- */
 els.topicSearch.addEventListener('input', e => renderTopics(e.target.value));
@@ -1585,12 +1671,23 @@ els.soundBtn.addEventListener('click', () => {
 [els.tankBtn, els.homeTankBtn].forEach(btn => btn.addEventListener('click', () => { renderFishTank(); openModal(els.tankModal); }));
 els.closeTankBtn.addEventListener('click', () => closeModal(els.tankModal));
 els.tankModal.addEventListener('click', e => { if (e.target === els.tankModal) closeModal(els.tankModal); });
+function saveGhSettingsFromInputs() {
+  storageSet(STORAGE_GH_SETTINGS, JSON.stringify({
+    owner: els.ghOwnerInput.value.trim() || GH_DEFAULTS.owner,
+    repo: els.ghRepoInput.value.trim() || GH_DEFAULTS.repo,
+    branch: els.ghBranchInput.value.trim() || GH_DEFAULTS.branch,
+    path: els.ghPathInput.value.trim() || GH_DEFAULTS.path
+  }));
+}
 els.dataBtn.addEventListener('click', () => {
+  const s = getGhSettings();
+  els.ghOwnerInput.value = s.owner; els.ghRepoInput.value = s.repo; els.ghBranchInput.value = s.branch; els.ghPathInput.value = s.path;
   const savedToken = loadJSON(STORAGE_GH_TOKEN, '');
   if (savedToken) els.ghTokenInput.value = savedToken;
   els.publishStatus.textContent = '';
   openModal(els.dataModal);
 });
+[els.ghOwnerInput, els.ghRepoInput, els.ghBranchInput, els.ghPathInput].forEach(input => input.addEventListener('change', saveGhSettingsFromInputs));
 els.closeDataBtn.addEventListener('click', () => closeModal(els.dataModal));
 els.dataModal.addEventListener('click', e => { if (e.target === els.dataModal) closeModal(els.dataModal); });
 els.adminBtn.addEventListener('click', () => { sfx.tap(); renderAdminTopicSelect(); renderAdminWordList(); setAdminTab('flash'); showScreen('admin'); });
@@ -1601,6 +1698,8 @@ function init() {
   if (!Array.isArray(progress.accumulatedFish)) progress.accumulatedFish = [];
   if (!Array.isArray(progress.exploredTopics)) progress.exploredTopics = [];
   renderTopics(); updateProgressUI(); renderFishTank(); renderAdminTopicSelect();
+  loadDataJsonFromGitHub(false);
+  loadPuzzleFolderFromGitHub();
 }
 init();
 </script>
