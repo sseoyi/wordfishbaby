@@ -1,11 +1,30 @@
 {
   "version": 1,
   "progress": {
-    "accumulatedFish": [],
+    "accumulatedFish": [
+      "🐬",
+      "🐳"
+    ],
     "exploredTopics": []
   },
   "customImages": {},
-  "customPuzzles": [],
+  "customPuzzles": [
+    {
+      "id": "custom_1785615343387",
+      "name": "Siu 1",
+      "image": "https://raw.githubusercontent.com/sseoyi/wordfishbaby/main/res/puzzle-siu-1-1785615341538.jpg"
+    },
+    {
+      "id": "custom_1785615379313",
+      "name": "Siu 2",
+      "image": "https://raw.githubusercontent.com/sseoyi/wordfishbaby/main/res/puzzle-siu-2-1785615377104.jpg"
+    },
+    {
+      "id": "custom_1785615546142",
+      "name": "Siu 3",
+      "image": "https://raw.githubusercontent.com/sseoyi/wordfishbaby/main/res/puzzle-siu-3-1785615544734.jpg"
+    }
+  ],
   "customWordText": {},
   "knowledgeBank": [
     {
@@ -109,5 +128,5 @@
       "correct": "a"
     }
   ],
-  "publishedAt": "2026-08-01T20:14:30.532Z"
+  "publishedAt": "2026-08-02T06:33:05.835Z"
 }
